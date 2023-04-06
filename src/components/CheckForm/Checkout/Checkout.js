@@ -10,7 +10,7 @@ import { commerce } from '../../../lib/commerce';
 const steps = ['Shipping Address', 'Payment Details']
 
 
-const Checkout = ({cart,order,onCaptureCheckout,error}) => {
+const Checkout = ({cart,order,onCaptureCheckout,error,setOrder}) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
@@ -39,9 +39,9 @@ const Checkout = ({cart,order,onCaptureCheckout,error}) => {
         nextStep();
     }
     const timeout = () => {
-        setTimeout(() => {
-            setIsFinished(true)
-        },3000)
+        // setTimeout(() => {
+        //     setIsFinished(true)
+        // },3000)
     }
 
     
@@ -55,17 +55,7 @@ let Confirmation = ()=> order.customer ? (
         <br />
         <Button variant='outlined' component={Link} to='/' type='button'>Back to Home</Button>
     </>
-) : isFinished ? (
-        <>
-           <div>
-            <Typography variant='h6'>Thank you for your purchase</Typography>
-            <Divider className={classes.divider} />
-           </div>
-        <br />
-        <Button variant='outlined' component={Link} to='/' type='button'>Back to Home</Button>
-        </>
-
-) : (
+) :  (
         <div className={classes.spinner}>
         <CircularProgress/>
         </div>
@@ -83,6 +73,11 @@ let Confirmation = ()=> order.customer ? (
     
 
     const Form = () => activeStep === 0 ? <AddressForm checkoutToken={checkoutToken} next={next} /> : <PaymentForm addressData={addressFormData} checkoutToken={checkoutToken} onCaptureCheckout={onCaptureCheckout} backStep={backStep} nextStep={nextStep} timeout={timeout} />
+    if (!checkoutToken) {
+        return <div className={classes.spinner}>
+        <CircularProgress/>
+        </div>
+    }
     return (
       
         <>

@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* *{
+    font-size: 30px;
+} */
+.container_loader {
+    background-color: darkgrey;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-content: center;
+}
+
+.spinner-text {
+    font-size: 2em;
+    animation: loading-opacity 2s ease-in infinite;
+}
+
+
+
+.spinner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 300px;
+}
+
+.spinner-sector {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 50%;
+    border: 15px solid transparent;
+    mix-blend-mode: overlay;
+}
+
+.spinner-sector-blue {
+    animation: rotate 2s ease-out infinite;
+    border-top: 15px solid rgb(12, 150, 196);
+}
+
+.spinner-sector-red {
+    animation: rotate 2.5s ease-in infinite;
+    border-top: 15px solid rgb(195, 10, 10);
+}
+
+.spinner-sector-green {
+    border-top: 15px solid rgb(35, 252, 35);
+    animation: rotate 1.5s ease-in-out infinite;
+}
+.fadeIn{
+    animation: loading-opacity 0.8s ease-in-out ;
+}
+
+
+@keyframes rotate {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loading-opacity {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    25%,
+    75% {
+        opacity: .5
+    }
+
+    50% {
+        opacity: .1;
+    }
+}

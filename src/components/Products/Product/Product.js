@@ -10,7 +10,6 @@ const Product = ({ product,handleAddCart }) => {
     // console.log(doc.body.firstChild)
     return doc.body.firstChild.innerHTML; 
   };
-  convertStringToHTML(product.description);
   const classes = useStyles();
   return (
     <Card className ={classes.root}>

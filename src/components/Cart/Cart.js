@@ -3,7 +3,11 @@ import { Container,Typography,Button,Grid } from '@material-ui/core'
 import useStyles from './styles';
 import { Link } from 'react-router-dom';
 import CartItem from './CartItem/CartItem';
-const Cart = ({ cart,handleUpdateQty,removeItem,clearCart }) => {
+
+
+
+const Cart = ({ cart, handleUpdateQty, removeItem, clearCart }) => {
+
     const classes = useStyles();
     const isEmpty = !cart?.line_items?.length;
   
