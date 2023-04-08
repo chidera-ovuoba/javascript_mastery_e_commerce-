@@ -51,9 +51,9 @@ const App = () => {
        
       //  console.log(prices)
         
-       const productsData = prices.data.map((item)=>{if(item.product.metadata.front){return item.product}})
+       const productsData = prices.data.filter((item)=>item.product.metadata.front === 'yes')
           console.log(productsData)
-          console.log(Object(productsData[0].metadata))
+          console.log(productsData.map((item)=>{Object.keys(item.metadata)}))
         })()
         return async () => {
             // const paymentIntent = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).paymentIntents.cancel(paymentIntentId)
