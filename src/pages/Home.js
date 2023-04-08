@@ -3,6 +3,7 @@ import Slider from '../components/Silder';
 import { useGlobalContext } from '../lib/context';
 // import Product from '../components/Product';
 import Products from './Products';
+import ProductsPanel from '../components/ProductsPanel';
 // import sliderData from '../assests/slider';
 const Home = () => {
   const { loading,ProductsData,sliderIndex } = useGlobalContext();
@@ -20,8 +21,9 @@ return (
 <div> 
 <div className='grid place-content-center pt-32'>
       <Slider sliderIndex={sliderIndex} />
+      <ProductsPanel/>
   </div>
-      <Products/>
+      
       </div>
   )
 }

@@ -5,10 +5,12 @@ module.exports = {
     screens: {
       '2xl': {'max': '1535px'},
       'xl': {'max': '1279px'},
-      'lg': {'max': '915px'},
+       'lg': { 'max': '915px' },
+       'lg_1':{'max':'710px'},
        'md': { 'max': '610px' },
        'md_1':{'max':'460px'},
        'sm': { 'max': '400px' },
+       'xs':{'max':'350px'}
      }
   },
   variants: {

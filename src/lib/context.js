@@ -43,14 +43,14 @@ function AppProvider({ children }) {
     }, []);
 
     useEffect(() => {
-        const imageBanner = document.querySelector('.hero_image_banner');
-        if (!loading && imageBanner.complete) {
+        // const imageBanner = document.querySelector('.hero_image_banner');
+        if (!loading) {
             var interval = setInterval(() => dispatch({ type: 'ANIMATION_SLIDER', payload: { checkNumber, number: 1 } }), 5000);
         }
             return () => {
                 clearInterval(interval)
             }
-    }, );
+    } );
     
     useEffect(() => {
       dispatch({type:'GET_TOTAL'})  
@@ -96,7 +96,7 @@ function AppProvider({ children }) {
     function checkNumberSlider(number, number2, type) {
         if (type === 'increment') {
         if (number < 0) {
-            return state.ProductsData.length - 1;
+            return  7- 1;
         }
         if (number >= 6) {
             return 0
@@ -117,7 +117,7 @@ function AppProvider({ children }) {
 
  const checkNumber=(number,number2) => {
          if (number < 0) {
-           return state.ProductsData.length - 1;
+           return 7 - 1;
            
         }
         if (number >= 6) {

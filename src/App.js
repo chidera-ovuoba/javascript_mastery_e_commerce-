@@ -44,13 +44,16 @@ const App = () => {
          console.log(paymentIntentId)
 
         const prices = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).prices.list({
-          active:true,
-          limit: 4,
+          active: true,
+          limit:20,
           expand:['data.product']
-
-        });
+       });
        
-       console.log(prices)
+      //  console.log(prices)
+        
+       const productsData = prices.data.map((item)=>{if(item.product.metadata.front){return item.product}})
+          console.log(productsData)
+          console.log(Object(productsData[0].metadata))
         })()
         return async () => {
             // const paymentIntent = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).paymentIntents.cancel(paymentIntentId)
