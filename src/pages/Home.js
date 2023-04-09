@@ -5,7 +5,7 @@ import { useGlobalContext } from '../lib/context';
 import Products from './Products';
 import ProductsPanel from '../components/ProductsPanel';
 // import sliderData from '../assests/slider';
-const Home = () => {
+const Home = ({productsPanelData}) => {
   const { loading,ProductsData,sliderIndex } = useGlobalContext();
 if (loading) {
     return  <div className="container_loader">
@@ -21,7 +21,7 @@ return (
 <div> 
 <div className='grid place-content-center pt-32'>
       <Slider sliderIndex={sliderIndex} />
-      <ProductsPanel/>
+      <ProductsPanel productsPanelData={productsPanelData} />
   </div>
       
       </div>

@@ -21,11 +21,11 @@ const Silder = ({sliderIndex }) => {
   return (
          <>
          <div className='relative'>
-         <div className='absolute top-2/4 p-4 md_1:p-3 md_1:text-lg cursor-pointer rounded-full text-yellow-700 text-xl bg-[#f59e0b] z-10 -left-28 lg_1:left-[5%]' onClick={moveLeft}><MdNavigateBefore/>
+         <div className='absolute top-2/4 p-4 md_1:p-3 md_1:text-lg cursor-pointer rounded-full text-yellow-700 text-xl bg-[#f59e0b] z-10 left-[-0%] lg_1:left-[5%]' onClick={moveLeft}><MdNavigateBefore/>
          </div>
-      <div className='absolute top-2/4 p-4 md_1:p-3 md_1:text-lg cursor-pointer rounded-full text-yellow-700 text-xl bg-[#f59e0b] z-10 -right-28 lg_1:right-[5%]' onClick={moveRight}><MdOutlineNavigateNext/>
+      <div className='absolute top-2/4 p-4 md_1:p-3 md_1:text-lg cursor-pointer rounded-full text-yellow-700 text-xl bg-[#f59e0b] z-10 right-[-0%] lg_1:right-[5%]' onClick={moveRight}><MdOutlineNavigateNext/>
       </div>
-        <div className='grid grid-cols-1'>
+        <div className='grid grid-cols-1 place-items-center'>
         {
           sliderData.map((item,i)=>(
        <img src={item} alt="hero_img_slider" key={i} className={`w-[60vw] h-[30rem] lg_1:w-[85vw] md_1:h-[25rem] xs:h-[20rem] col-start-1 row-start-1 object-cover rounded-3xl select-none ${sliderIndex === i ? 'block fadeIn' :'hidden'}`}/>

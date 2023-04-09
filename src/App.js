@@ -19,8 +19,9 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 
 const App = () => {
-    const [products, setProducts] = useState();
-    const [cart, setCart] = useState({});
+  const [products, setProducts] = useState();
+  const [productsPanelData, setProductsPanelData] = useState([]);
+  const [cart, setCart] = useState({});
     const [order, setOrder] = useState({});
     const [stripe, setStripe] = useState(stripePromise);
   
@@ -51,9 +52,11 @@ const App = () => {
        
       //  console.log(prices)
         
-       const productsData = prices.data.filter((item)=>item.product.metadata.front === 'yes')
-          console.log(productsData)
-          console.log(productsData.map((item)=>{Object.keys(item.metadata)}))
+       const productsData = prices.data.filter((item) => item.product.metadata.front === 'yes').reduce((total,item) => {
+         return [...total,{image:item.product.images[0], text:Object.keys(item.product.metadata).find((item)=>item !== 'front')}]
+       },[])
+          setProductsPanelData(productsData)
+          // console.log(productsData)
         })()
         return async () => {
             // const paymentIntent = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).paymentIntents.cancel(paymentIntentId)
@@ -133,7 +136,7 @@ const App = () => {
       <Navbar/>
       <div className='bg-yellow-300'>
       <Routes>
-      <Route exact path='/' element={<Home/>} />
+            <Route exact path='/' element={<Home productsPanelData={productsPanelData} />} />
       </Routes>    
       </div>
         </Router>

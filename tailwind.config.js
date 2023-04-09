@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
    theme: {
     screens: {
@@ -11,7 +11,12 @@ module.exports = {
        'md_1':{'max':'460px'},
        'sm': { 'max': '400px' },
        'xs':{'max':'350px'}
-     }
+     },
+      extend: {
+        gridAutoColumns: {
+          '1fr': 'minmax(150px, 1fr)',
+        }
+      }
   },
   variants: {
     extend: {},
