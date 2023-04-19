@@ -21,9 +21,9 @@ const Silder = ({sliderIndex }) => {
   return (
          <>
          <div className='relative'>
-         <div className='absolute top-2/4 p-4 md_1:p-3 md_1:text-lg cursor-pointer rounded-full text-yellow-700 text-xl bg-[#f59e0b] z-10 left-[-0%] lg_1:left-[5%]' onClick={moveLeft}><MdNavigateBefore/>
+         <div className='absolute top-2/4 p-4 md_1:p-3 md_1:text-lg cursor-pointer rounded-full text-orange-900 text-xl bg-orange-500 z-10 left-[5vw] lg_1:left-[3%]' onClick={moveLeft}><MdNavigateBefore/>
          </div>
-      <div className='absolute top-2/4 p-4 md_1:p-3 md_1:text-lg cursor-pointer rounded-full text-yellow-700 text-xl bg-[#f59e0b] z-10 right-[-0%] lg_1:right-[5%]' onClick={moveRight}><MdOutlineNavigateNext/>
+      <div className='absolute top-2/4 p-4 md_1:p-3 md_1:text-lg cursor-pointer rounded-full text-orange-900 text-xl bg-orange-500 z-10 right-[5vw] lg_1:right-[3%]' onClick={moveRight}><MdOutlineNavigateNext/>
       </div>
         <div className='grid grid-cols-1 place-items-center'>
         {

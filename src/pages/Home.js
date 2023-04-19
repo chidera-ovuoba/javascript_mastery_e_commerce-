@@ -4,6 +4,8 @@ import { useGlobalContext } from '../lib/context';
 // import Product from '../components/Product';
 import Products from './Products';
 import ProductsPanel from '../components/ProductsPanel';
+import ProductSection from '../components/ProductSection';
+import Testimonial from '../components/Testimonial';
 // import sliderData from '../assests/slider';
 const Home = ({productsPanelData}) => {
   const { loading,ProductsData,sliderIndex } = useGlobalContext();
@@ -19,10 +21,13 @@ if (loading) {
   }
 return (
 <div> 
-<div className='grid place-content-center pt-32'>
+<div className='grid place-items-center pt-32'>
       <Slider sliderIndex={sliderIndex} />
       <ProductsPanel productsPanelData={productsPanelData} />
-  </div>
+      <Testimonial/>
+      <ProductSection/>
+      <Products/>
+      </div>
       
       </div>
   )

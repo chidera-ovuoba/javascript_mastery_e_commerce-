@@ -13,16 +13,16 @@ const Navbar = ({total}) => {
 
     return (
      <>
-          <div className="flex justify-between items-center bg-yellow-300 px-[5vw] md_1:px-[3vw] py-5 fixed z-10 w-screen">
-          <div className='font-bold text-3xl md_1:text-xl sm:text-[15px] text-[#f57c0a] flex items-center'><img src={logo} alt='logo-pic' className='w-8 h-10 mr-2 sm:w-6 sm:h-8 sm:mr-1' />Freedom<span className='text-yellow-500'>MR</span></div>
+          <div className="flex justify-between items-center bg-yellow-300 px-[5vw] md_1:px-[3vw] py-5 fixed z-20 w-screen">
+          <div className='font-bold text-3xl md_1:text-xl sm:text-[15px] text-yellow-500 flex items-center'><img src={logo} alt='logo-pic' className='w-8 h-10 mr-2 sm:w-6 sm:h-8 sm:mr-1' />Freedom<span className='text-orange-600'>MR</span></div>
               <div className="flex">
                   <Search />
-                  <ul className='flex justify-between items-center text-lg sm:text-[12px] text-yellow-800 font-medium'>
-                      <li className='px-3 hover:text-yellow-400 md:hidden block'><Link to="/">Home</Link></li>
-                      <li className='px-3 hover:text-yellow-400 md:hidden block'><Link to="/products">Products</Link></li>
-                      <li className='px-3 text-3xl sm:text-2xl relative'><Link to="/" className='hover:text-yellow-400'><AiOutlineShoppingCart /></Link><div className='bg-yellow-500 grid place-items-center rounded-full text-sm w-5 h-5 text-justify  absolute -top-2 right-1'>1</div></li>
+                  <ul className='flex justify-between items-center text-lg sm:text-[12px] text-orange-900 font-medium'>
+                      <li className='px-3 hover:text-orange-400 md:hidden block'><Link to="/">Home</Link></li>
+                      <li className='px-3 hover:text-orange-400 md:hidden block'><Link to="/products">Products</Link></li>
+                      <li className='px-3 text-3xl sm:text-2xl relative'><Link to="/" className='hover:text-orange-400'><AiOutlineShoppingCart /></Link><div className='bg-orange-500 grid place-items-center rounded-full text-sm w-5 h-5 text-justify  absolute -top-2 right-1'>1</div></li>
                         <li className='px-3 relative block sm:px-2'>
-                        <div className='w-[40px] h-[40px] bg-[#f59e0bc4] grid place-items-center rounded-full' id='image_contanier'>
+                        <div className='w-[40px] h-[40px] bg-orange-500 grid place-items-center rounded-full' id='image_contanier'>
                         <div className='text-xl font-bold' id='image_profileName'>CN</div>
                         </div>
                         <div className='absolute -bottom-[7rem] w-[8rem] bg-white left-[50%] -translate-x-1/2 grid place-items-center gap-4 py-4 shadow-md text-white text-sm  rounded-sm'>
