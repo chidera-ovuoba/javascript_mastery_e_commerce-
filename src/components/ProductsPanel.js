@@ -22,7 +22,7 @@ const ProductsPanel = ({ productsPanelData }) => {
         productsPanelData.map(({image,text}) => (
           <div key={text} className='text-center grid place-items-center w-full h-[170px]'>
             <div className='grid place-items-center bg-orange-400 w-full h-[150px] overflow-hidden rounded-lg'>
-            <img src={image} alt={text}  className='w-auto h-[90%]' />
+            <img src={image} alt={text}  className='w-[90%] h-[90%] img' />
             </div>
             <p className='text-lg capitalize text-orange-900 font-medium pt-2'>{text}</p>
           </div>

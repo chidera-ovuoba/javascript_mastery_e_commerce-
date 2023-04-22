@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import Stripe from 'stripe';
+import Footer from './components/Footer';
 // import { Elements } from '@stripe/react-stripe-js';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
@@ -140,6 +141,7 @@ const App = () => {
       </Routes>    
       </div>
         </Router>
+        <Footer/>
       </div>
       )
 }

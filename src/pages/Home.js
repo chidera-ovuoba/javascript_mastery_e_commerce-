@@ -24,8 +24,8 @@ return (
 <div className='grid place-items-center pt-32'>
       <Slider sliderIndex={sliderIndex} />
       <ProductsPanel productsPanelData={productsPanelData} />
-      <Testimonial/>
       <ProductSection/>
+      <Testimonial/>
       <Products/>
       </div>
       
