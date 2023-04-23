@@ -8,6 +8,12 @@ import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import Stripe from 'stripe';
 import Footer from './components/Footer';
+import Products from './pages/Products';
+import Carts from './pages/Carts';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import SingleProduct from './pages/SingleProduct';
+
 // import { Elements } from '@stripe/react-stripe-js';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
@@ -22,6 +28,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 const App = () => {
   const [products, setProducts] = useState();
   const [productsPanelData, setProductsPanelData] = useState([]);
+  const [productsData, setProductsData] = useState([]);
   const [cart, setCart] = useState({});
     const [order, setOrder] = useState({});
     const [stripe, setStripe] = useState(stripePromise);
@@ -45,19 +52,22 @@ const App = () => {
          setPaymentIntentId(paymentIntent.id);
          console.log(paymentIntentId)
 
-        const prices = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).prices.list({
-          active: true,
-          limit:20,
-          expand:['data.product']
-       });
+      //   const prices = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).prices.list({
+      //     active: true,
+      //     limit:20,
+      //     expand:['data.product']
+      //  });
        
-      //  console.log(prices)
+       const products = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).products.list({
+       limit: 20,
+       });
+      //  console.log(prices,products)
         
-       const productsData = prices.data.filter((item) => item.product.metadata.front === 'yes').reduce((total,item) => {
-         return [...total,{image:item.product.images[0], text:Object.keys(item.product.metadata).find((item)=>item !== 'front')}]
+       const productsData = products.data.reduce((total,item) => {
+         return [...total,{image:item.images[0], text:Object.keys(item.metadata).find((item)=>item !== 'front'),name:item.name,price_id:item.default_price,desc:item.description,metadata:item.metadata,id:item.id}]
        },[])
-          setProductsPanelData(productsData)
-          // console.log(productsData)
+          setProductsPanelData(productsData.filter((item) => item.metadata.front === 'yes'))
+          setProductsData(productsData)
         })()
         return async () => {
             // const paymentIntent = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).paymentIntents.cancel(paymentIntentId)
@@ -137,7 +147,12 @@ const App = () => {
       <Navbar/>
       <div className='bg-yellow-300'>
       <Routes>
-            <Route exact path='/' element={<Home productsPanelData={productsPanelData} />} />
+            <Route exact path='/' element={<Home productsPanelData={productsPanelData} products={productsData} />} />
+            <Route path='/products' element={<Products products={productsData} />}></Route>
+          <Route  path='/signin' element={<SignIn />}></Route>
+          <Route  path='/signup' element={<SignUp />}></Route>
+          <Route  path='/singleproduct/:id' element={<SingleProduct />}></Route>
+          <Route  path='/carts' element={<Carts />}></Route>
       </Routes>    
       </div>
         </Router>

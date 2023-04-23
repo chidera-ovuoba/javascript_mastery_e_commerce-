@@ -6,6 +6,7 @@ module.exports = {
       '2xl': {'max': '1535px'},
       'xl': {'max': '1279px'},
        'lg': { 'max': '915px' },
+       'lg_2':{'max':'894px'},
        'lg_1':{'max':'710px'},
        'md': { 'max': '610px' },
        'md_1':{'max':'460px'},
@@ -18,7 +19,8 @@ module.exports = {
         },
         gridTemplateColumns: {
           // Simple 16 column grid
-        //  'footer2': 'repeat(2, minmax(0, 1fr))',
+         'footer4': 'repeat(4, minmax(150px, 1fr))',
+         'footer_4_2': 'repeat(2, minmax(150px, 1fr))',
 
           // Complex site-specific column configuration
          'footer2': 'calc(50%) calc(50% - 2rem)',

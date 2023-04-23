@@ -7,7 +7,7 @@ import ProductsPanel from '../components/ProductsPanel';
 import ProductSection from '../components/ProductSection';
 import Testimonial from '../components/Testimonial';
 // import sliderData from '../assests/slider';
-const Home = ({productsPanelData}) => {
+const Home = ({productsPanelData,products}) => {
   const { loading,ProductsData,sliderIndex } = useGlobalContext();
 if (loading) {
     return  <div className="container_loader">
@@ -26,7 +26,7 @@ return (
       <ProductsPanel productsPanelData={productsPanelData} />
       <ProductSection/>
       <Testimonial/>
-      <Products/>
+      <Products products={products}/>
       </div>
       
       </div>

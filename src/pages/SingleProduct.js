@@ -4,7 +4,7 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useGlobalContext } from '../context';
+import { useGlobalContext } from '../lib/context';
 const SingleProduct = () => {
     const { ProductsData,addToCart,changeAmount } = useGlobalContext();
     const { id } = useParams();

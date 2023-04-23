@@ -1,8 +1,8 @@
 import React from 'react'
 import { MdDelete } from 'react-icons/md';
-import { useGlobalContext } from '../context';
 // import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useGlobalContext } from '../lib/context';
 const Carts = () => {
   const { cart, changeAmount, total, amount, removeItem,id } = useGlobalContext();
   // const { id } = useParams()

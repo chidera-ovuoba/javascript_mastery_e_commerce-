@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { useGlobalContext } from '../context';
+import { useGlobalContext } from '../lib/context';
+
+
+
 const SignUp = () => {
   const { submitInfo } = useGlobalContext();
   const [name, setName] = useState('');

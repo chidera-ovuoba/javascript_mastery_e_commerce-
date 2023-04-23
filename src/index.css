@@ -5,6 +5,16 @@
 /* *{
     font-size: 30px;
 } */
+
+a,button,div,span{
+    -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+}
 .container_loader {
     background-color: darkgrey;
     width: 100vw;
@@ -90,8 +100,14 @@
   width:3px;
   background-color: rgb(120, 53, 15);
   display:block;
+  margin-left:auto;
+  /* justify-self:flex-end; */
   /* align-self: flex-start */
   }
+  .service_container:not(:last-of-type) > div{
+      margin-left:auto;
+  }
+  
 
   /* .service_container:not(:first-of-type){
     padding-left:20px;
@@ -112,7 +128,7 @@
 }
 
 .img{
-    inline-size: 150px;
+    inline-size: auto;
     object-fit: contain;
     aspect-ratio: 1 / 1;
 }
@@ -314,6 +330,7 @@ p.star {
         display:none
     }
 }
+
 @media(width < 460px){
     .service_container:not(:last-of-type):after{
         height:3px;
