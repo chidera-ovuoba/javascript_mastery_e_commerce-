@@ -31,7 +31,7 @@ const App = () => {
   const [productsData, setProductsData] = useState([]);
   const [cart, setCart] = useState({});
     const [order, setOrder] = useState({});
-    const [stripe, setStripe] = useState(stripePromise);
+    // const [stripe, setStripe] = useState(stripePromise);
   
     const [clientSecret, setClientSecret] = useState("");
     const [paymentIntentId, setPaymentIntentId] = useState("");
@@ -73,7 +73,7 @@ const App = () => {
             // const paymentIntent = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).paymentIntents.cancel(paymentIntentId)
         }
 
-    }, [stripe])
+    }, [])
 
         const appearance = {
         theme: 'flat',
