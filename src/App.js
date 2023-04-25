@@ -4,7 +4,7 @@ import { Navbar } from './components';
 import Home from './pages/Home';
 // import CheckoutForm from './components/CheckForm/server';
 // import { commerce } from './lib/commerce';
-import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
+import { BrowserRouter as Router,Routes,Route, useLocation } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import Stripe from 'stripe';
 import Footer from './components/Footer';
@@ -35,7 +35,7 @@ const App = () => {
   
     const [clientSecret, setClientSecret] = useState("");
     const [paymentIntentId, setPaymentIntentId] = useState("");
-
+    // const location
 
     useEffect(() => {
      (async function () {

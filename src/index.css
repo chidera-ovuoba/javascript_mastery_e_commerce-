@@ -6,6 +6,10 @@
     font-size: 30px;
 } */
 
+
+input::placeholder{
+    color: rgb(255, 166, 0);
+}
 a,button,div,span{
     -webkit-tap-highlight-color: transparent;
         -webkit-touch-callout: none;
