@@ -1,38 +1,43 @@
-function reducer(state,action) {
+import Stripe from "stripe";
+
+
+
+ async function reducer(state, action) {
+    const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY) 
     
-if (action.type === 'DISPLAY_DATA') {
-    return { ...state, ProductsData: action.payload };
-}
-    if (action.type === 'UPLOAD_IMAGE') {
-        let inputFile = document.getElementById('input-img-file');
-        let profileName = document.getElementById('image_profileName');
-        let imgContainer = document.getElementById('image_contanier');
+// if (action.type === 'DISPLAY_DATA') {
+//     return { ...state, ProductsData: action.payload };
+// }
+//     if (action.type === 'UPLOAD_IMAGE') {
+//         let inputFile = document.getElementById('input-img-file');
+//         let profileName = document.getElementById('image_profileName');
+//         let imgContainer = document.getElementById('image_contanier');
 
         
-        inputFile.onchange = () => {
-            const imgUrl= URL.createObjectURL(inputFile.files[0])
-            if (imgUrl) {
-                [...imgContainer.children].map((item) => {
-            if (item.tagName === 'IMG' ) {
-                imgContainer.removeChild(item)
-            }
-             })
-                profileName.classList.add('hidden')
-            imgContainer.appendChild(
-                Object.assign(
-                    document.createElement('img'),
-                    {
-                        src: imgUrl,
-                        alt: 'profile_pic',
-                        className:'w-full h-full rounded-full'
-                    }
-                 )
-             )
-         }  
-        }
+//         inputFile.onchange = () => {
+//             const imgUrl= URL.createObjectURL(inputFile.files[0])
+//             if (imgUrl) {
+//                 [...imgContainer.children].map((item) => {
+//             if (item.tagName === 'IMG' ) {
+//                 imgContainer.removeChild(item)
+//             }
+//              })
+//                 profileName.classList.add('hidden')
+//             imgContainer.appendChild(
+//                 Object.assign(
+//                     document.createElement('img'),
+//                     {
+//                         src: imgUrl,
+//                         alt: 'profile_pic',
+//                         className:'w-full h-full rounded-full'
+//                     }
+//                  )
+//              )
+//          }  
+//         }
 
-    return { ...state};
-}
+//     return { ...state};
+// }
 
     
     if (action.type === 'ANIMATION_SLIDER') {
@@ -40,107 +45,131 @@ if (action.type === 'DISPLAY_DATA') {
         const index = action.payload.checkNumber(state.sliderIndex,action.payload.number);
         return { ...state,sliderIndex:index };
     }
-    if (action.type === 'SLIDER_RIGHT') {
-        const index = action.payload.checkNumberSlider(state.sliderIndex, action.payload.number, action.payload.type);
-        return { ...state, sliderIndex: index, sliderButtonClicked: !state.sliderButtonClicked };
-    }
-      if (action.type === 'SLIDER_LEFT') {
-        const index = action.payload.checkNumberSlider(state.sliderIndex, action.payload.number, action.payload.type);
-        return { ...state, sliderIndex: index, sliderButtonClicked: !state.sliderButtonClicked };
-    }
-      if (action.type === 'SLIDER_INPUT') {
-          const index = action.payload;
-          console.log(index);
-        return { ...state, sliderIndex: index, sliderButtonClicked: !state.sliderButtonClicked };
-    }
-    if (action.type === 'SEARCHING') {
-        return { ...state, searchTerm: action.payload };
-    }
+//     if (action.type === 'SLIDER_RIGHT') {
+//         const index = action.payload.checkNumberSlider(state.sliderIndex, action.payload.number, action.payload.type);
+//         return { ...state, sliderIndex: index, sliderButtonClicked: !state.sliderButtonClicked };
+//     }
+//       if (action.type === 'SLIDER_LEFT') {
+//         const index = action.payload.checkNumberSlider(state.sliderIndex, action.payload.number, action.payload.type);
+//         return { ...state, sliderIndex: index, sliderButtonClicked: !state.sliderButtonClicked };
+//     }
+//       if (action.type === 'SLIDER_INPUT') {
+//           const index = action.payload;
+//           console.log(index);
+//         return { ...state, sliderIndex: index, sliderButtonClicked: !state.sliderButtonClicked };
+//     }
+//     if (action.type === 'SEARCHING') {
+//         return { ...state, searchTerm: action.payload };
+//     }
+     if (action.type === 'ERROR_SNACKBAR') {
+         var passwordError = true;
+         console.log(state,'1')
+         setTimeout(() => {
+             passwordError = false;
+             console.log(state,'2')
+         }, 5000)
+           return {...state,passwordError}
+       }
      
     if (action.type === 'SUBMIT_INFO') {
-        localStorage.setItem('ClientData', JSON.stringify([{ ...action.payload,key:`login${state.loginNumber}` }]));
-        return { ...state };
-    }
-
-    if (action.type === 'ADD_CART') {
-        let items =[]
-        if (state.cart.some((item)=>state.ProductsData[action.payload].id === item.id)) {
-            console.log(true);
-            return { ...state }; 
-        } 
-         items =[...state.cart, state.ProductsData[action.payload]]
-        console.log(items);
-        return { ...state, cart: items ,id:action.payload};
-    }
-    if (action.type === 'CHANGE_AMOUNT') {
-        
-            const tempCart = state.cart.map((item) => {
-                if (item.id === action.payload.id) {
-                    return { ...item, amount: action.payload.value }
-                }
-                return item;
-            })
-             const tempCart2 = state.ProductsData.map((item) => {
-                if (item.id === action.payload.id) {
-                    return { ...item, amount: action.payload.value }
-                }
-                return item;
-            })
-            return { ...state, cart: tempCart ,ProductsData: tempCart2}
+        // localStorage.setItem('ClientData', JSON.stringify([{ ...action.payload,key:`login${state.loginNumber}` }]));
+        const { name, email, password, confirm } = action.payload;
+         const customerQuery = await stripe.customers.search({
+             query: `name:'${name}' AND metadata['password']:'${password}' AND email:'${email}'`,
+             limit:1
+         });
+         console.log(customerQuery)
+        if (customerQuery.data[0]?.email === email) {
+            console.log('already exists')
+        } else {
+            const customer = await stripe.customers.create({
+                name,
+                email,
+                metadata:{password,confirm}
+            });
         }
-    
-
-    
-
-    if (action.type === 'CLEAR_ALL') {
-        return {...state,cart:[]}
-    }
-    if (action.type === 'REMOVE_ITEM') {
-        let tempCart = state.cart.filter((item)=> item.id !== action.payload)
-        return {...state,cart:tempCart}
+            return { ...state };
     }
 
- if (action.type === 'INCREMENT') {
+//     if (action.type === 'ADD_CART') {
+//         let items =[]
+//         if (state.cart.some((item)=>state.ProductsData[action.payload].id === item.id)) {
+//             console.log(true);
+//             return { ...state }; 
+//         } 
+//          items =[...state.cart, state.ProductsData[action.payload]]
+//         console.log(items);
+//         return { ...state, cart: items ,id:action.payload};
+//     }
+//     if (action.type === 'CHANGE_AMOUNT') {
         
-    let tempCart = state.cart.map((cartItem) => {
-      if (cartItem.id === action.payload) {
-          return { ...cartItem, amount: cartItem.amount + 1 }
+//             const tempCart = state.cart.map((item) => {
+//                 if (item.id === action.payload.id) {
+//                     return { ...item, amount: action.payload.value }
+//                 }
+//                 return item;
+//             })
+//              const tempCart2 = state.ProductsData.map((item) => {
+//                 if (item.id === action.payload.id) {
+//                     return { ...item, amount: action.payload.value }
+//                 }
+//                 return item;
+//             })
+//             return { ...state, cart: tempCart ,ProductsData: tempCart2}
+//         }
+    
+
+    
+
+//     if (action.type === 'CLEAR_ALL') {
+//         return {...state,cart:[]}
+//     }
+//     if (action.type === 'REMOVE_ITEM') {
+//         let tempCart = state.cart.filter((item)=> item.id !== action.payload)
+//         return {...state,cart:tempCart}
+//     }
+
+//  if (action.type === 'INCREMENT') {
+        
+//     let tempCart = state.cart.map((cartItem) => {
+//       if (cartItem.id === action.payload) {
+//           return { ...cartItem, amount: cartItem.amount + 1 }
          
-      }
-      return cartItem
-    })
-    return { ...state, cart: tempCart }
-    }
+//       }
+//       return cartItem
+//     })
+//     return { ...state, cart: tempCart }
+//     }
     
- if (action.type === 'DECREMENT') {
-        //  console.log(state.cart[0]);
-    let tempCart = state.cart.map((cartItem) => {
-      if (cartItem.id === action.payload) {
-        return { ...cartItem, amount: cartItem.amount - 1 }
-        }
+//  if (action.type === 'DECREMENT') {
+//         //  console.log(state.cart[0]);
+//     let tempCart = state.cart.map((cartItem) => {
+//       if (cartItem.id === action.payload) {
+//         return { ...cartItem, amount: cartItem.amount - 1 }
+//         }
         
-      return cartItem
-    }).filter((item) => item.amount > 0);
+//       return cartItem
+//     }).filter((item) => item.amount > 0);
         
-    return { ...state, cart: tempCart }
-  }
-    if (action.type === 'GET_TOTAL') {
+//     return { ...state, cart: tempCart }
+//   }
+//     if (action.type === 'GET_TOTAL') {
          
-         let {total,amount } = state.cart.reduce((allTotal,item) => {
-             allTotal.total += (item.fields.price) * item.amount; 
-             allTotal.amount += item.amount;
+//          let {total,amount } = state.cart.reduce((allTotal,item) => {
+//              allTotal.total += (item.fields.price) * item.amount; 
+//              allTotal.amount += item.amount;
              
-           return allTotal
-         },
-             {
-             total:0,
-             amount:0
-         }
-        )
-        total = parseFloat(total.toFixed(2))
-         console.log(amount,total)
-        return { ...state, total, amount }
-     }
+//            return allTotal
+//          },
+//              {
+//              total:0,
+//              amount:0
+//          }
+//         )
+//         total = parseFloat(total.toFixed(2))
+//          console.log(amount,total)
+//         return { ...state, total, amount }
+//      }
 
 }
 export default reducer

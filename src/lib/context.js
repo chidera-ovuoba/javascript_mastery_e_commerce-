@@ -1,5 +1,9 @@
-import React,{useContext,useState,useEffect,useReducer} from "react";
+import React,{useContext,useState,useEffect,useReducer, useCallback} from "react";
 import reducer from './reducer';
+// import Stripe from "stripe";
+
+
+// const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY) 
 const appContext = React.createContext();
 const url = 'https://course-api.com/javascript-store-products';
 const initialState = {
@@ -17,30 +21,30 @@ const initialState = {
 function AppProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState);
         const [loading, setLoading] = useState(true);
-    const [sliderIndex, setSliderIndex] = useState(0);
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(url);
-            let data = await response.json();
-            data = data.map((item) => {
-               return {...item,amount:1} 
-            })
-            console.log(data);
-            dispatch({ type: 'DISPLAY_DATA', payload: data });
+    // const [sliderIndex, setSliderIndex] = useState(0);
+//     const fetchData = async () => {
+//         setLoading(true);
+//         try {
+//             const response = await fetch(url);
+//             let data = await response.json();
+//             data = data.map((item) => {
+//                return {...item,amount:1} 
+//             })
+//             console.log(data);
+//             dispatch({ type: 'DISPLAY_DATA', payload: data });
             
-            setLoading(false)
+//             setLoading(false)
 
-        } catch (error) {
-            console.log(error)
-            setLoading(false);
-      }
-  }
+//         } catch (error) {
+//             console.log(error)
+//             setLoading(false);
+//       }
+//   }
     
-    useEffect(() => {
-        fetchData();  
+//     useEffect(() => {
+//         fetchData();  
         
-    }, []);
+//     }, []);
 
     useEffect(() => {
         // const imageBanner = document.querySelector('.hero_image_banner');
@@ -52,21 +56,27 @@ function AppProvider({ children }) {
             }
     } );
     
-    useEffect(() => {
-      dispatch({type:'GET_TOTAL'})  
-    },[state.cart])
+    // useEffect(() => {
+    //   dispatch({type:'GET_TOTAL'})  
+    // },[state.cart])
     
     const uploadImage = () => {
         dispatch({type:'UPLOAD_IMAGE'})
     }
-    async function submitInfo(data) {
+     const submitInfo = (data)=>{
         const { name, email, password, confirm } = data;
         if (name && email && password && confirm) {
             if (password !== confirm) {
-                state.passwordError = true;
-                console.log(state.passwordError)
-          return
+                // state.passwordError = true;
+                // console.log(state.passwordError);
+                //   return {...state,passwordError}
+               return dispatch({ type: "ERROR_SNACKBAR", payload: state.passwordError });
             }
+        // const customer = await stripe.customers.create({
+        //     name,
+        //     email,
+        //     metadata:{password,confirm}
+        // });
 
             // // if () {
             // JSON.parse(localStorage.getItem('clientData')).map((client) => {
@@ -87,11 +97,10 @@ function AppProvider({ children }) {
             
             // state.loginNumber += 1;
             // console.log(state.loginNumber)       
-            // return dispatch({ type: "SUBMIT_INFO", payload: data })     
+            return dispatch({ type: "SUBMIT_INFO", payload: data })     
         }
         
     }
-
 
     function checkNumberSlider(number, number2, type) {
         if (type === 'increment') {
