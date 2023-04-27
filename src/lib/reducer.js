@@ -2,8 +2,8 @@ import Stripe from "stripe";
 
 
 
- async function reducer(state, action) {
-    const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY) 
+  function reducer(state, action) {
+    
     
 // if (action.type === 'DISPLAY_DATA') {
 //     return { ...state, ProductsData: action.payload };
@@ -62,32 +62,18 @@ import Stripe from "stripe";
 //         return { ...state, searchTerm: action.payload };
 //     }
      if (action.type === 'ERROR_SNACKBAR') {
-         var passwordError = true;
+         state[action.payload] = true;
          console.log(state,'1')
          setTimeout(() => {
-             passwordError = false;
+             state[action.payload] = false;
              console.log(state,'2')
          }, 5000)
-           return {...state,passwordError}
+           return {...state}
        }
      
     if (action.type === 'SUBMIT_INFO') {
         // localStorage.setItem('ClientData', JSON.stringify([{ ...action.payload,key:`login${state.loginNumber}` }]));
-        const { name, email, password, confirm } = action.payload;
-         const customerQuery = await stripe.customers.search({
-             query: `name:'${name}' AND metadata['password']:'${password}' AND email:'${email}'`,
-             limit:1
-         });
-         console.log(customerQuery)
-        if (customerQuery.data[0]?.email === email) {
-            console.log('already exists')
-        } else {
-            const customer = await stripe.customers.create({
-                name,
-                email,
-                metadata:{password,confirm}
-            });
-        }
+       
             return { ...state };
     }
 

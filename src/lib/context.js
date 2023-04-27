@@ -1,6 +1,6 @@
 import React,{useContext,useState,useEffect,useReducer, useCallback} from "react";
 import reducer from './reducer';
-// import Stripe from "stripe";
+import Stripe from "stripe";
 
 
 // const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY) 
@@ -15,12 +15,17 @@ const initialState = {
     sliderButtonClicked: false,
     searchTerm: '',
     loginNumber: 0,
-    userInfo: [localStorage.getItem(`login1`)],
-    passwordError: false,
+    // userInfo: [localStorage.getItem(`login1`)],
+    // passwordError: false,
 }
-function AppProvider({ children }) {
+ function AppProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState);
         const [loading, setLoading] = useState(true);
+        const [passwordError,setPasswordError] = useState(false);
+     const [accountError, setAccountError] = useState(false);
+     
+   
+         
     // const [sliderIndex, setSliderIndex] = useState(0);
 //     const fetchData = async () => {
 //         setLoading(true);
@@ -56,21 +61,33 @@ function AppProvider({ children }) {
             }
     } );
     
-    // useEffect(() => {
-    //   dispatch({type:'GET_TOTAL'})  
-    // },[state.cart])
+    useEffect(() => {
+    //   dispatch({type:'GET_TOTAL'})
+    console.log(accountError)    
+        setTimeout(() => {
+            if (passwordError) {
+                setPasswordError(false)
+            }
+            if (accountError) {
+                setAccountError(false)
+            }
+        }, 6000)
+    },[passwordError,accountError])
     
     const uploadImage = () => {
         dispatch({type:'UPLOAD_IMAGE'})
     }
-     const submitInfo = (data)=>{
+     const submitInfo =async (data,navigate)=>{
         const { name, email, password, confirm } = data;
+        const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY)
         if (name && email && password && confirm) {
             if (password !== confirm) {
                 // state.passwordError = true;
                 // console.log(state.passwordError);
-                //   return {...state,passwordError}
-               return dispatch({ type: "ERROR_SNACKBAR", payload: state.passwordError });
+                setPasswordError(true)
+                console.log(passwordError)
+                  return
+            //    return dispatch({ type: "ERROR_SNACKBAR", payload: state.passwordError });
             }
         // const customer = await stripe.customers.create({
         //     name,
@@ -94,10 +111,25 @@ function AppProvider({ children }) {
             //         metadata:{password,confirm}
             //     });
             // }
-            
-            // state.loginNumber += 1;
-            // console.log(state.loginNumber)       
-            return dispatch({ type: "SUBMIT_INFO", payload: data })     
+            console.log()
+            const customerQuery = await stripe.customers.search({
+             query: `email:'${email}'`,
+             limit:1
+            });
+           console.log(customerQuery)
+        if (customerQuery.data[0]?.email === email) {
+            setAccountError(true)
+            console.log('already exists')
+        } else {
+            const customer = await stripe.customers.create({
+                name,
+                email,
+                metadata:{password,confirm}
+            });
+            // console.log(customer)
+            localStorage.setItem('username',customer.name);
+            navigate('/');
+        }   
         }
         
     }
@@ -161,7 +193,7 @@ function AppProvider({ children }) {
 }
    
    
-    return <appContext.Provider value={{...state,loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,uploadImage,checkNumber}}>
+    return <appContext.Provider value={{...state,loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,uploadImage,checkNumber,passwordError,accountError}}>
     {children}
     </appContext.Provider>
 }

@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useGlobalContext } from '../lib/context';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 const SignUp = () => {
-  const { submitInfo,passwordError } = useGlobalContext();
+  const { submitInfo,passwordError,accountError } = useGlobalContext();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-
+  const navigate = useNavigate();
   
  
 
@@ -20,7 +20,7 @@ const SignUp = () => {
       <h1 className='text-2xl font-bold mb-6 text-yellow-800'>SIGN-UP</h1>
         <form className='flex flex-col gap-6 text-lg font-medium text-yellow-800' onSubmit={(e) => {
           e.preventDefault()
-          submitInfo({ name, email, password, confirm })
+          submitInfo({ name, email, password, confirm },navigate)
         }}>
                <div className='flex flex-col gap-2' >
                <label htmlFor="nameID">Name</label>
@@ -40,7 +40,7 @@ const SignUp = () => {
                </div>         
                
            <button type='submit' className='bg-orange-500 mt-4 text-orange-800 font-medium  text-center text-md text-white p-3 rounded-lg place-self-start mb-5'>REGISTER</button>
-          <article className={`fixed w-[10rem] h-[4rem] bg-white -bottom-[4rem] left-[50%] ${ passwordError ? 'slide_up':'slide_down'}`}>{passwordError && 'password are not identical'}</article>
+          <article className={`fixed w-[12rem] text-center h-auto bg-white left-[50%] border-t-4 px-3 py-1 text-sm font-medium border-t-red-500 -translate-x-1/2 -bottom-[4rem]  ${passwordError || accountError ? 'slide_up_down' : ''}`}>{passwordError && 'passwords are not identical'}{accountError && 'Account Already Exists' }</article>
         </form>
 
      

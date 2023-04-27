@@ -6,10 +6,19 @@ import { ImMenu3 } from 'react-icons/im';
 import logo from '../../assests/logo (1).png'
 import { Link,useLocation } from 'react-router-dom';
 import { useGlobalContext } from '../../lib/context';
+import { FaUserAlt } from 'react-icons/fa';
 const Navbar = ({total}) => {
     // const classes = useStyles();
     const {uploadImage}= useGlobalContext()
     // const location = useLocation();
+    const nameInitialsArr = localStorage.getItem('username')?.split(' ');
+    // if (nameInitialsArr?.length > 1 ) {
+        console.log(nameInitialsArr)
+
+        
+    // }
+    // console.log(firstInitials)
+
 
     return (
      <>
@@ -23,7 +32,7 @@ const Navbar = ({total}) => {
                       <li className='px-3 text-3xl sm:text-2xl relative'><Link to="/" className='hover:text-orange-400'><AiOutlineShoppingCart /></Link><div className='bg-orange-500 grid place-items-center rounded-full text-sm w-5 h-5 text-justify  absolute -top-2 right-1'>1</div></li>
                         <li className='px-3 relative block sm:px-2'>
                         <div className='w-[40px] h-[40px] bg-orange-500 grid place-items-center rounded-full' id='image_contanier'>
-                        <div className='text-xl font-bold' id='image_profileName'>CN</div>
+                                <div className='text-xl font-bold uppercase' id='image_profileName'>{nameInitialsArr?.length > 1 ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt/>}</div>
                         </div>
                         <div className='absolute -bottom-[7rem] w-[8rem] bg-white left-[50%] -translate-x-1/2 grid place-items-center gap-4 py-4 shadow-md text-white text-sm  rounded-sm'>
                         <input type="file" accept='image/jpeg,image/jpg,image/png' id="input-img-file" className='hidden' />

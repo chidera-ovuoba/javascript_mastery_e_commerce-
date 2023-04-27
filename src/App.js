@@ -4,7 +4,7 @@ import { Navbar } from './components';
 import Home from './pages/Home';
 // import CheckoutForm from './components/CheckForm/server';
 // import { commerce } from './lib/commerce';
-import { BrowserRouter as Router,Routes,Route, useLocation } from 'react-router-dom';
+import { Routes,Route} from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import Stripe from 'stripe';
 import Footer from './components/Footer';
@@ -30,7 +30,7 @@ const App = () => {
   const [productsPanelData, setProductsPanelData] = useState([]);
   const [productsData, setProductsData] = useState([]);
   const [cart, setCart] = useState({});
-    const [order, setOrder] = useState({});
+  const [order, setOrder] = useState({});
     // const [stripe, setStripe] = useState(stripePromise);
   
     const [clientSecret, setClientSecret] = useState("");
@@ -143,19 +143,17 @@ const App = () => {
     
   return (
       <div>
-      <Router>
       <Navbar/>
       <div className='bg-yellow-300'>
       <Routes>
             <Route exact path='/' element={<Home productsPanelData={productsPanelData} products={productsData} />} />
             <Route path='/products' element={<Products products={productsData} />}></Route>
           <Route  path='/signin' element={<SignIn />}></Route>
-          <Route  path='/signup' element={<SignUp />}></Route>
+            <Route path='/signup' element={<SignUp />}></Route>
           <Route  path='/singleproduct/:id' element={<SingleProduct />}></Route>
           <Route  path='/carts' element={<Carts />}></Route>
       </Routes>    
       </div>
-        </Router>
         <Footer/>
       </div>
       )

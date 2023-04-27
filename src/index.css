@@ -13,13 +13,8 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     transition: background-color 0s ease-in-out 50000s;
 }
-.slide_up{
-    transform: translate(-50%, 5rem);
-    transition: transform ease 0.5s ;
-}
-.slide_down{
-    transform: translate(-50%,0rem);
-    transition: transform ease 0.5s ;
+.slide_up_down{
+    animation: slideUp_Down ease 6s;
 }
 
 input::placeholder{
@@ -341,6 +336,25 @@ p.star {
 
     100% {
         opacity: 1;
+    }
+}
+@keyframes slideUp_Down {
+
+    0%{
+        bottom: -4rem;
+    }
+    
+    25% {
+        bottom: 4rem;
+    }
+    50% {
+        bottom: 4rem;
+    }
+    75% {
+        bottom: 4rem;
+    }
+    100% {
+        bottom: -4rem;
     }
 }
 
