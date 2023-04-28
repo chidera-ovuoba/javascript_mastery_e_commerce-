@@ -5,39 +5,39 @@ import Stripe from "stripe";
   function reducer(state, action) {
     
     
-// if (action.type === 'DISPLAY_DATA') {
-//     return { ...state, ProductsData: action.payload };
-// }
-//     if (action.type === 'UPLOAD_IMAGE') {
-//         let inputFile = document.getElementById('input-img-file');
-//         let profileName = document.getElementById('image_profileName');
-//         let imgContainer = document.getElementById('image_contanier');
+if (action.type === 'DISPLAY_DATA') {
+    return { ...state, ProductsData: action.payload };
+}
+    if (action.type === 'UPLOAD_IMAGE') {
+        let inputFile = document.getElementById('input-img-file');
+        let profileName = document.getElementById('image_profileName');
+        let imgContainer = document.getElementById('image_contanier');
 
-        
-//         inputFile.onchange = () => {
-//             const imgUrl= URL.createObjectURL(inputFile.files[0])
-//             if (imgUrl) {
-//                 [...imgContainer.children].map((item) => {
-//             if (item.tagName === 'IMG' ) {
-//                 imgContainer.removeChild(item)
-//             }
-//              })
-//                 profileName.classList.add('hidden')
-//             imgContainer.appendChild(
-//                 Object.assign(
-//                     document.createElement('img'),
-//                     {
-//                         src: imgUrl,
-//                         alt: 'profile_pic',
-//                         className:'w-full h-full rounded-full'
-//                     }
-//                  )
-//              )
-//          }  
-//         }
+        console.log('upload')
+        inputFile.onchange = () => {
+            const imgUrl= URL.createObjectURL(inputFile.files[0])
+            if (imgUrl) {
+                [...imgContainer.children].map((item) => {
+            if (item.tagName === 'IMG' ) {
+                imgContainer.removeChild(item)
+            }
+             })
+                profileName.classList.add('hidden')
+            imgContainer.appendChild(
+                Object.assign(
+                    document.createElement('img'),
+                    {
+                        src: imgUrl,
+                        alt: 'profile_pic',
+                        className:'w-full h-full rounded-full'
+                    }
+                 )
+             )
+         }  
+        }
 
-//     return { ...state};
-// }
+    return { state};
+}
 
     
     if (action.type === 'ANIMATION_SLIDER') {

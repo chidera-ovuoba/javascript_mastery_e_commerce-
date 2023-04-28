@@ -8,7 +8,8 @@ import ProductSection from '../components/ProductSection';
 import Testimonial from '../components/Testimonial';
 // import sliderData from '../assests/slider';
 const Home = ({productsPanelData,products}) => {
-  const { loading,ProductsData,sliderIndex } = useGlobalContext();
+  const { loading, ProductsData, sliderIndex } = useGlobalContext();
+  console.log('home')
 if (loading) {
     return  <div className="container_loader">
         <div className="spinner">

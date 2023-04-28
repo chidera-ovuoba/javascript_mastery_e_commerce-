@@ -27,29 +27,29 @@ const initialState = {
    
          
     // const [sliderIndex, setSliderIndex] = useState(0);
-//     const fetchData = async () => {
-//         setLoading(true);
-//         try {
-//             const response = await fetch(url);
-//             let data = await response.json();
-//             data = data.map((item) => {
-//                return {...item,amount:1} 
-//             })
-//             console.log(data);
-//             dispatch({ type: 'DISPLAY_DATA', payload: data });
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(url);
+            let data = await response.json();
+            data = data.map((item) => {
+               return {...item,amount:1} 
+            })
+            console.log(data);
+            dispatch({ type: 'DISPLAY_DATA', payload: data });
             
-//             setLoading(false)
+            setLoading(false)
 
-//         } catch (error) {
-//             console.log(error)
-//             setLoading(false);
-//       }
-//   }
+        } catch (error) {
+            console.log(error)
+            setLoading(false);
+      }
+  }
     
-//     useEffect(() => {
-//         fetchData();  
+    useEffect(() => {
+        fetchData();  
         
-//     }, []);
+    }, []);
 
     useEffect(() => {
         // const imageBanner = document.querySelector('.hero_image_banner');
@@ -59,7 +59,7 @@ const initialState = {
             return () => {
                 clearInterval(interval)
             }
-    } );
+    },[]);
     
     useEffect(() => {
     //   dispatch({type:'GET_TOTAL'})
@@ -129,6 +129,7 @@ const initialState = {
             // console.log(customer)
             localStorage.setItem('username',customer.name);
             navigate('/');
+            navigate(0)
         }   
         }
         
