@@ -14,9 +14,9 @@ const Navbar = ({total}) => {
     const [openLogout, setOpenLogout] = useState(false)
     const [openNavMenu, setOpenNavMenu] = useState(false)
     const nameInitialsArr = localStorage.getItem('username')?.split(' ');
+    const userImg = localStorage.getItem('userImg');
     // if (nameInitialsArr?.length > 1 ) {
         console.log(nameInitialsArr)
-
      // }
     // console.log(firstInitials)
 
@@ -38,14 +38,14 @@ const Navbar = ({total}) => {
                       <li className='px-3 hover:text-orange-400 md:hidden block'><Link to="/products">Products</Link></li>
                       <li className='px-3 text-3xl sm:text-2xl relative'><Link to="/" className='hover:text-orange-400'><AiOutlineShoppingCart /></Link><div className='bg-orange-500 grid place-items-center rounded-full text-sm w-5 h-5 text-justify  absolute -top-2 right-1'>1</div></li>
                         <li className='px-3 relative block sm:px-2'>
-                        <div className='w-[40px] h-[40px] bg-orange-500 grid place-items-center rounded-full' id='image_contanier'>
-                                <div className='text-xl font-bold uppercase' id='image_profileName' onClick={()=>setOpenLogout((prev)=>!prev)}>{nameInitialsArr?.length > 1 ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt/>}</div>
+                        <div className='w-[40px] h-[40px] bg-orange-500 grid place-items-center rounded-full' id='image_contanier' onClick={() => setOpenLogout((prev) => !prev)}>
+                                <div className={userImg ? 'hidden':'text-xl font-bold uppercase'} id='image_profileName'>{nameInitialsArr?.length > 1 ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt />}</div>
+                                <img src={userImg} alt='userImg' className={userImg ? 'w-full h-full rounded-full img': 'hidden'} />
                         </div>
                         {openLogout && <div className='absolute -bottom-[7rem] w-[8rem] bg-white left-[50%] -translate-x-1/2 grid place-items-center gap-4 py-4 shadow-md text-white text-sm  rounded-sm'>
                         <input type="file" accept='image/jpeg,image/jpg,image/png' id="input-img-file" className='hidden' />
                                 <label htmlFor="input-img-file" className='text-yellow-700 cursor-pointer' onClick={() => {
-                                    uploadImage()
-                                    setOpenLogout(false)
+                                    uploadImage(setOpenLogout)
                                 }}>Upload Image</label>
                         <button className='bg-[#f57c0a] rounded-sm px-2 py-1' onClick={logOut}>LOG OUT</button>
                         </div>}

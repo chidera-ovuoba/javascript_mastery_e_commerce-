@@ -6,11 +6,16 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../lib/context';
 import Stripe from 'stripe';
+import { FaUserAlt } from 'react-icons/fa';
+import StarRating from '../components/StarRating';
 const SingleProduct = () => {
     const { ProductsData,addToCart,changeAmount } = useGlobalContext();
     const { id } = useParams();
     const [productData, setProductData] = useState({})
-    const { name, price_1, images,description } = productData;
+    const { name, price_1, images, description } = productData;
+    
+    const nameInitialsArr = localStorage.getItem('username')?.split(' ');
+    const userImg = localStorage.getItem('userImg');
 
     const price = `${price_1?.slice(0,price_1?.length - 2)}.${price_1?.slice(price_1?.length-2,price_1?.length)}`
     const retrieveProduct = useCallback(async () => {
@@ -35,8 +40,8 @@ useEffect(() => {
       <div className='w-[90vw] mx-auto py-10 pt-[7rem]'>
           <Link className='p-3 rounded-lg bg-white shadow-3xl mb-5' to='/'>Go Back</Link>
           <div className="grid gap-10 justify-between grid-cols-4 xl_1:grid-cols-3 my-10 lg_12:grid-cols-1">
-              <div className='max-w-[32rem] col-span-2 bg-yellow-200 p-5 rounded-xl lg_12:col-span-1 lg_12:justify-self-center'>
-              <img src={images?.[0]} alt={name} className='w-full img'/>
+              <div className='max-w-[32rem] h-[32rem] sm:h-[22rem] col-span-2 bg-yellow-200 p-5 rounded-xl lg_12:col-span-1 lg_12:justify-self-center'>
+              <img src={images?.[0]} alt={name} className='w-full h-full img'/>
               </div>
            
               
@@ -70,16 +75,25 @@ useEffect(() => {
                   </div>
           </div>
           <h3 className='text-2xl uppercase font-bold mb-6'>Reviews</h3>
-          <div className='mb-4 ml-4 pb-4 border-b-2  border-gray-400 grid gap-2'>
-              <span className='bold'>asda</span>
-              <div className='flex gap-1'><BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></div>
-              <span className='bold'>2022-20-12</span>
-              <p>jbnkfnkgrkmgk</p>
+          <div className='mb-4 ml-4 pb-4  grid gap-2'>
+          <div className='flex justify-between items-center gap-2'>
+          <div className='w-[45px] h-[45px] bg-orange-500 grid place-items-center rounded-full mr-2'>
+          <div className={userImg ? 'hidden':'text-xl font-bold uppercase'}>{nameInitialsArr?.length > 1 ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt />}</div>
+                <img src={userImg} alt='reviewImg' className={userImg ? 'w-full h-full rounded-full img': 'hidden'} />
+                </div>
+                <div className='grid mr-auto gap-1'>
+                <span className='bold'>Light Yagami</span>
+                <span className='flex gap-1'><BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></span>
+                </div>
+                <span className='bold '>2022-20-12</span>
+                </div>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi molestias, dignissimos voluptas recusandae sequi laborum voluptatibus assumenda ratione nesciunt magnam, iure rem, perspiciatis velit corporis voluptatum eligendi sunt ipsum nisi!</p>
               </div>
            <h3 className='text-2xl uppercase font-bold mb-6'>WRITE A CUSTOMER REVIEW</h3>
            <div className='bg-purple-400 text-white p-5 rounded-md w-[10rem] items-center'>Please sign in to write a review</div>
-          <div className='flex items-center gap-2 min-w-[500px] md:min-w-full text-md text-yellow-950 flex-wrap'>
-          <input type='text' className='w-[30rem] focus:border-b-yellow-600 bg-transparent border-b-4 border-b-yellow-800 outline-none' />
+          <div className='flex  flex-col justify-center items-center gap-2 min-w-[500px] md:min-w-full text-md text-yellow-950 flex-wrap'>
+          <textarea style={{width:'90vw',height:'10rem'}} className='bg-yellow-200 p-3 resize-none' placeholder="what's your pick on the product?"/>
+          <div className="flex">Rate : <StarRating/></div>
           <button className='px-6 py-3 bg-orange-500 font-semibold text-md capitalize mr-auto lg_2:mr-0'>submit review</button>
           </div>
 

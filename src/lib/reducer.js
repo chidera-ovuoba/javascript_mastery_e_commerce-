@@ -15,12 +15,21 @@ if (action.type === 'DISPLAY_DATA') {
 
         console.log('upload')
         inputFile.onchange = () => {
-            const imgUrl= URL.createObjectURL(inputFile.files[0])
+            console.log('upload_in')
+            const fileUrl = inputFile.files[0]; 
+            const imgUrl= URL.createObjectURL(inputFile.files[0]);
+            const reader = new FileReader();
+            reader.readAsDataURL(fileUrl)
+            // console.log(inputFile.files)
+            reader.addEventListener('load', () => {
+                localStorage.setItem('userImg',reader.result);
+            })
             if (imgUrl) {
                 [...imgContainer.children].map((item) => {
             if (item.tagName === 'IMG' ) {
                 imgContainer.removeChild(item)
             }
+            action.payload(false);
              })
                 profileName.classList.add('hidden')
             imgContainer.appendChild(
@@ -29,14 +38,14 @@ if (action.type === 'DISPLAY_DATA') {
                     {
                         src: imgUrl,
                         alt: 'profile_pic',
-                        className:'w-full h-full rounded-full'
+                        className:'w-full h-full rounded-full img'
                     }
                  )
              )
          }  
         }
 
-    return { state};
+    return { ...state};
 }
 
     

@@ -74,8 +74,8 @@ const initialState = {
         }, 6000)
     },[passwordError,accountError])
     
-    const uploadImage = () => {
-        dispatch({type:'UPLOAD_IMAGE'})
+    const uploadImage = (setOpenLogout) => {
+        dispatch({type:'UPLOAD_IMAGE',payload:setOpenLogout})
     }
      const submitInfo =async (data,navigate)=>{
         const { name, email, password, confirm } = data;
