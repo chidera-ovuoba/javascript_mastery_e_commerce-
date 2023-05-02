@@ -17,6 +17,17 @@ const SingleProduct = () => {
     const nameInitialsArr = localStorage.getItem('username')?.split(' ');
     const userImg = localStorage.getItem('userImg');
 
+    // const timeFormat = () => {
+    //   const d = new Date();
+    //   const presumedDate =  new Date('July 21, 1983 00:15:00:526').toLocaleString();
+    //   let text = d.toLocaleString();
+    //   console.log(text.split(', ')[1].split(':'),presumedDate.split(', ')[1].split(':'));
+    // //   switch
+    // }
+    
+    // timeFormat()
+
+
     const price = `${price_1?.slice(0,price_1?.length - 2)}.${price_1?.slice(price_1?.length-2,price_1?.length)}`
     const retrieveProduct = useCallback(async () => {
         const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY)
@@ -91,10 +102,10 @@ useEffect(() => {
               </div>
            <h3 className='text-2xl uppercase font-bold mb-6'>WRITE A CUSTOMER REVIEW</h3>
            <div className='bg-purple-400 text-white p-5 rounded-md w-[10rem] items-center'>Please sign in to write a review</div>
-          <div className='flex  flex-col justify-center items-center gap-2 min-w-[500px] md:min-w-full text-md text-yellow-950 flex-wrap'>
-          <textarea style={{width:'90vw',height:'10rem'}} className='bg-yellow-200 p-3 resize-none' placeholder="what's your pick on the product?"/>
-          <div className="flex">Rate : <StarRating/></div>
-          <button className='px-6 py-3 bg-orange-500 font-semibold text-md capitalize mr-auto lg_2:mr-0'>submit review</button>
+          <div className='flex  flex-col justify-center items-center gap-6 min-w-[500px] md:min-w-full text-md text-yellow-950 flex-wrap'>
+          <textarea style={{width:'90vw',height:'15rem'}} className='bg-yellow-200 p-3 resize-none' placeholder="what's your pick on the product?"/>
+          <div className="flex items-center justify-center">Rate :  <StarRating/></div>
+          <button className='mx-auto px-6 py-3 bg-orange-500 font-semibold text-md capitalize mr-auto lg_2:mr-0'>submit review</button>
           </div>
 
       </div>

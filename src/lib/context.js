@@ -18,7 +18,7 @@ const initialState = {
     // userInfo: [localStorage.getItem(`login1`)],
     // passwordError: false,
 }
- function AppProvider({ children }) {
+ const AppProvider = React.memo(({ children })=> {
     const [state, dispatch] = useReducer(reducer, initialState);
         const [loading, setLoading] = useState(true);
         const [passwordError,setPasswordError] = useState(false);
@@ -197,7 +197,7 @@ const initialState = {
     return <appContext.Provider value={{...state,loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,uploadImage,checkNumber,passwordError,accountError}}>
     {children}
     </appContext.Provider>
-}
+})
 export default AppProvider;
 
 export const useGlobalContext = () => {

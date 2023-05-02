@@ -7,7 +7,7 @@ import logo from '../../assests/logo (1).png'
 import { Link,useLocation, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../../lib/context';
 import { FaUserAlt } from 'react-icons/fa';
-const Navbar = ({total}) => {
+const Navbar = () => {
     // const classes = useStyles();
     const {uploadImage}= useGlobalContext()
     const navigate = useNavigate();

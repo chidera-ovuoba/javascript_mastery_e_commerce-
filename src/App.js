@@ -40,17 +40,17 @@ const App = () => {
     useEffect(() => {
      (async function () {
           
-         const paymentIntent = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).paymentIntents.create({
-             amount: 1440,
-             currency: "usd",
-             payment_method_types: ['card'],
-             receipt_email: 'ovuobachidera18@gmail.com',
-             description: '3% of your purchase goes toward our ocean cleanup effort!',
+        //  const paymentIntent = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).paymentIntents.create({
+        //      amount: 1440,
+        //      currency: "usd",
+        //      payment_method_types: ['card'],
+        //      receipt_email: 'ovuobachidera18@gmail.com',
+        //      description: '3% of your purchase goes toward our ocean cleanup effort!',
              
-            });
-         setClientSecret(paymentIntent.client_secret)
-         setPaymentIntentId(paymentIntent.id);
-         console.log(paymentIntentId)
+        //     });
+        //  setClientSecret(paymentIntent.client_secret)
+        //  setPaymentIntentId(paymentIntent.id);
+        //  console.log(paymentIntentId)
 
       //   const prices = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY).prices.list({
       //     active: true,
