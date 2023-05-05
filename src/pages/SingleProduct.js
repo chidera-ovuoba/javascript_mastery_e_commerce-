@@ -17,16 +17,42 @@ const SingleProduct = () => {
     const nameInitialsArr = localStorage.getItem('username')?.split(' ');
     const userImg = localStorage.getItem('userImg');
 
-    // const timeFormat = () => {
-    //   const d = new Date();
-    //   const presumedDate =  new Date('July 21, 1983 00:15:00:526').toLocaleString();
-    //   let text = d.toLocaleString();
-    //   console.log(text.split(', ')[1].split(':'),presumedDate.split(', ')[1].split(':'));
-    // //   switch
-    // }
+    const timeFormat = () => {
+       const secondsMilli = 1000
+       const minuteMilli = secondsMilli * 60;
+       const hourMilli = minuteMilli * 60;
+       const dayMilli = hourMilli * 24;
+       const weekMilli = dayMilli * 7;
+       const monthMilli = weekMilli * 4;
+       const yearMilli = dayMilli * 365;
+       
+       
+       // Divide Time with a year
+       const d = new Date();
+       let currentMilliTime  = d.getTime()
+       
+       const savedMilliTime = new Date('May 3, 2023 20:28:00:526').getTime();
+       let seconds = Math.round((currentMilliTime - savedMilliTime)/ secondsMilli)
+       let minute = Math.round((currentMilliTime - savedMilliTime)/ minuteMilli)
+       let hour = Math.round((currentMilliTime - savedMilliTime)/ hourMilli)
+       let day = Math.round((currentMilliTime - savedMilliTime)/ dayMilli)
+       let week = Math.round((currentMilliTime - savedMilliTime)/ weekMilli)
+       let month = Math.round((currentMilliTime - savedMilliTime)/ monthMilli)
+       let years = Math.round((currentMilliTime - savedMilliTime)/ yearMilli)
+       
+    //    if(seconds1 > 0 && seconds1 < 60){
+    //     document.getElementById("demo1").innerHTML = seconds1;
+    //    }
+    //    if(minute1 > 0 && minute1 < 60){
+    //     document.getElementById("demo1").innerHTML = minute1;
+    //    }
+    //    if(day1 > 0 && day1 < 7){
+    //     document.getElementById("demo1").innerHTML = day1;
+    //    }
     
-    // timeFormat()
-
+    }
+           
+    timeFormat();
 
     const price = `${price_1?.slice(0,price_1?.length - 2)}.${price_1?.slice(price_1?.length-2,price_1?.length)}`
     const retrieveProduct = useCallback(async () => {
@@ -39,9 +65,19 @@ const SingleProduct = () => {
             product.default_price
             );  
             setProductData({...product,price_1:price.unit_amount_decimal})
-                
-            },[id])
-useEffect(() => {
+            
+    }, [id])
+    
+        const handleSubmit = async (e) => {
+           const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY)
+            e.preventDefault();
+           const product = await stripe.products.update(
+           id,
+           {metadata: {'order_id':[{name:'f'}]}}
+            );
+            retrieveProduct()
+       }
+        useEffect(() => {
    retrieveProduct()
 
 }, [id,retrieveProduct])
@@ -102,11 +138,11 @@ useEffect(() => {
               </div>
            <h3 className='text-2xl uppercase font-bold mb-6'>WRITE A CUSTOMER REVIEW</h3>
            <div className='bg-purple-400 text-white p-5 rounded-md w-[10rem] items-center'>Please sign in to write a review</div>
-          <div className='flex  flex-col justify-center items-center gap-6 min-w-[500px] md:min-w-full text-md text-yellow-950 flex-wrap'>
+          <form onSubmit={handleSubmit} className='flex  flex-col justify-center items-center gap-6 min-w-[500px] md:min-w-full text-md text-yellow-950 flex-wrap'>
           <textarea style={{width:'90vw',height:'15rem'}} className='bg-yellow-200 p-3 resize-none' placeholder="what's your pick on the product?"/>
           <div className="flex items-center justify-center">Rate :  <StarRating/></div>
-          <button className='mx-auto px-6 py-3 bg-orange-500 font-semibold text-md capitalize mr-auto lg_2:mr-0'>submit review</button>
-          </div>
+          <button type='submit' className='mx-auto px-6 py-3 bg-orange-500 font-semibold text-md capitalize mr-auto lg_2:mr-0'>submit review</button>
+          </form>
 
       </div>
   )
