@@ -1,4 +1,4 @@
-import React,{useCallback, useEffect, useState} from 'react'
+import React,{useCallback, useEffect, useRef, useState} from 'react'
 import { BsStar } from 'react-icons/bs';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { AiOutlinePlus } from 'react-icons/ai';
@@ -11,8 +11,10 @@ import StarRating from '../components/StarRating';
 const SingleProduct = () => {
     const { ProductsData,addToCart,changeAmount } = useGlobalContext();
     const { id } = useParams();
-    const [productData, setProductData] = useState({})
-    const { name, price_1, images, description } = productData;
+    const [productData, setProductData] = useState({});
+    // const [reviewsData, setReviewsData] = useState([]);
+    const reviewRef = useRef(null);
+    const { name, price_1, images, description,metadata } = productData;
     
     const nameInitialsArr = localStorage.getItem('username')?.split(' ');
     const userImg = localStorage.getItem('userImg');
@@ -73,7 +75,7 @@ const SingleProduct = () => {
             e.preventDefault();
            const product = await stripe.products.update(
            id,
-           {metadata: {'order_id':[{name:'f'}]}}
+               { metadata: { reviews:JSON.stringify([...JSON.parse(metadata?.reviews),{id:new Date().getTime(),img:localStorage.getItem('userImg'),date:'20-1-2',desc:reviewRef.current.value,name:localStorage.getItem('username')}])} }
             );
             retrieveProduct()
        }
@@ -139,7 +141,7 @@ const SingleProduct = () => {
            <h3 className='text-2xl uppercase font-bold mb-6'>WRITE A CUSTOMER REVIEW</h3>
            <div className='bg-purple-400 text-white p-5 rounded-md w-[10rem] items-center'>Please sign in to write a review</div>
           <form onSubmit={handleSubmit} className='flex  flex-col justify-center items-center gap-6 min-w-[500px] md:min-w-full text-md text-yellow-950 flex-wrap'>
-          <textarea style={{width:'90vw',height:'15rem'}} className='bg-yellow-200 p-3 resize-none' placeholder="what's your pick on the product?"/>
+          <textarea style={{width:'90vw',height:'15rem'}} className='bg-yellow-200 p-3 resize-none' placeholder="what's your pick on the product?" ref={reviewRef}/>
           <div className="flex items-center justify-center">Rate :  <StarRating/></div>
           <button type='submit' className='mx-auto px-6 py-3 bg-orange-500 font-semibold text-md capitalize mr-auto lg_2:mr-0'>submit review</button>
           </form>
