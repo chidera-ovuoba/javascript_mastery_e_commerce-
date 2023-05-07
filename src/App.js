@@ -142,7 +142,7 @@ const App = () => {
  
     
   return (
-      <div>
+    <div>
       <Navbar/>
       <div className='bg-yellow-300'>
       <Routes>
@@ -152,9 +152,9 @@ const App = () => {
             <Route path='/signup' element={<SignUp />}></Route>
           <Route  path='/singleproduct/:id' element={<SingleProduct />}></Route>
           <Route  path='/carts' element={<Carts />}></Route>
-      </Routes>    
-      </div>
-        <Footer/>
+          </Routes>    
+          </div>
+          <Footer/>
       </div>
       )
 }
