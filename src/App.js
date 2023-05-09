@@ -1,9 +1,6 @@
-// import { AirlineSeatLegroomExtraOutlined } from '@material-ui/icons';
 import React, { useState,useEffect } from 'react'
 import { Navbar } from './components';
 import Home from './pages/Home';
-// import CheckoutForm from './components/CheckForm/server';
-// import { commerce } from './lib/commerce';
 import { Routes,Route} from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import Stripe from 'stripe';
@@ -14,15 +11,10 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import SingleProduct from './pages/SingleProduct';
 
-// import { Elements } from '@stripe/react-stripe-js';
+import { initializeApp } from "firebase/app";
+import { getAuth,connectAuthEmulator,signInWithEmailAndPassword, AuthErrorCodes, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from "firebase/auth";
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
-// "@chec/commerce.jsx": "^2.8.0",
-//     "@material-ui/core": "^4.12.4",
-//     "@material-ui/icons": "^4.11.3",
-//     "@stripe/react-stripe-js": "^1.9.0",
-//     "@stripe/stripe-js": "^1.32.0",
 
 
 const App = () => {
@@ -31,6 +23,82 @@ const App = () => {
   const [productsData, setProductsData] = useState([]);
   const [cart, setCart] = useState({});
   const [order, setOrder] = useState({});
+  const [username, setUsername] = useState(null);
+  const [userImg, setUserImg] = useState(null);
+  
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: "ecommerce-f6c82.firebaseapp.com",
+    projectId: "ecommerce-f6c82",
+    storageBucket: "ecommerce-f6c82.appspot.com",
+    messagingSenderId: "637659560469",
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: "G-53T1WFVFNN"
+  };
+  
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  // const analytics = getAnalytics(app);
+  // import { Elements } from '@stripe/react-stripe-js';
+  
+  
+  const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+  
+  const auth = getAuth(app);
+  // connectAuthEmulator(auth, 'http://localhost:9099');
+  
+  onAuthStateChanged(auth, user=> {
+    if (user) {
+      console.log(auth.currentUser)
+      //  setUsername(user.displayName);
+      //  setUserImg(user.photoURL);
+    } else {
+      
+    }
+   })
+  
+  const showLoginError = async (error) => { 
+    if (error.code == AuthErrorCodes.INVALID_PASSWORD) {
+      
+    }
+    if (error.code == AuthErrorCodes.INVALID_EMAIL) {
+      
+    }
+  }
+  
+  const login = async () => {
+    const loginEmail = 'ovuoachidera@gmail.com';
+    const loginPassword = 'o123hd';
+    try{
+  
+      const userCrediential = await signInWithEmailAndPassword(auth,loginEmail,loginPassword);
+      console.log(userCrediential);
+    } catch (error) {
+      console.log(error)
+      showLoginError(error)
+    }
+  }
+  const signup = async (name,email,password,confirm) => {
+    if (name && email && password && confirm) {
+      if (password == confirm) {
+        try{
+          const userCrediential = await createUserWithEmailAndPassword(auth, email, password);
+      updateProfile(auth.currentUser, {
+      displayName:name ,
+    }).then(() => {
+      // Profile updated!
+      console.log('profile updated')
+    }).catch((error) => {
+      console.log(error)
+    });
+      console.log(userCrediential);
+    } catch (error) {
+      console.log(error)
+      showLoginError(error)
+    }
+  }
+  }
+  }
     // const [stripe, setStripe] = useState(stripePromise);
   
     const [clientSecret, setClientSecret] = useState("");
@@ -143,13 +211,13 @@ const App = () => {
     
   return (
     <div>
-      <Navbar/>
+      <Navbar prop={{userImg,username,auth}} />
       <div className='bg-yellow-300'>
       <Routes>
             <Route exact path='/' element={<Home productsPanelData={productsPanelData} products={productsData} />} />
             <Route path='/products' element={<Products products={productsData} />}></Route>
           <Route  path='/signin' element={<SignIn />}></Route>
-            <Route path='/signup' element={<SignUp />}></Route>
+            <Route path='/signup' element={<SignUp signup={signup} />}></Route>
           <Route  path='/singleproduct/:id' element={<SingleProduct />}></Route>
           <Route  path='/carts' element={<Carts />}></Route>
           </Routes>    

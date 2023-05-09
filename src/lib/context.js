@@ -1,4 +1,4 @@
-import React,{useContext,useState,useEffect,useReducer, useCallback} from "react";
+import React,{useContext,useState,useEffect,useReducer, useCallback, useMemo} from "react";
 import reducer from './reducer';
 import Stripe from "stripe";
 
@@ -28,67 +28,67 @@ const initialState = {
          
     // const [sliderIndex, setSliderIndex] = useState(0);
     const fetchData = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(url);
-            let data = await response.json();
-            data = data.map((item) => {
-               return {...item,amount:1} 
-            })
-            console.log(data);
-            dispatch({ type: 'DISPLAY_DATA', payload: data });
+    //     setLoading(true);
+    //     try {
+    //         const response = await fetch(url);
+    //         let data = await response.json();
+    //         data = data.map((item) => {
+    //            return {...item,amount:1} 
+    //         })
+    //         console.log(data);
+    //         dispatch({ type: 'DISPLAY_DATA', payload: data });
             
-            setLoading(false)
+    //         setLoading(false)
 
-        } catch (error) {
-            console.log(error)
-            setLoading(false);
-      }
+    //     } catch (error) {
+    //         console.log(error)
+    //         setLoading(false);
+    //   }
   }
     
     useEffect(() => {
-        fetchData();  
+        // fetchData();  
         
     }, []);
 
     useEffect(() => {
-        // const imageBanner = document.querySelector('.hero_image_banner');
-        if (!loading) {
-            var interval = setInterval(() => dispatch({ type: 'ANIMATION_SLIDER', payload: { checkNumber, number: 1 } }), 5000);
-        }
-            return () => {
-                clearInterval(interval)
-            }
+        // // const imageBanner = document.querySelector('.hero_image_banner');
+        // if (!loading) {
+        //     var interval = setInterval(() => dispatch({ type: 'ANIMATION_SLIDER', payload: { checkNumber, number: 1 } }), 5000);
+        // }
+        //     return () => {
+        //         clearInterval(interval)
+        //     }
     },[]);
     
-    useEffect(() => {
-    //   dispatch({type:'GET_TOTAL'})
-    console.log(accountError)    
-        setTimeout(() => {
-            if (passwordError) {
-                setPasswordError(false)
-            }
-            if (accountError) {
-                setAccountError(false)
-            }
-        }, 6000)
-    },[passwordError,accountError])
+    // useEffect(() => {
+    // //   dispatch({type:'GET_TOTAL'})
+    // console.log(accountError)    
+    //     setTimeout(() => {
+    //         if (passwordError) {
+    //             setPasswordError(false)
+    //         }
+    //         if (accountError) {
+    //             setAccountError(false)
+    //         }
+    //     }, 6000)
+    // },[passwordError,accountError])
     
     const uploadImage = (setOpenLogout) => {
         dispatch({type:'UPLOAD_IMAGE',payload:setOpenLogout})
     }
      const submitInfo =async (data,navigate)=>{
-        const { name, email, password, confirm } = data;
-        const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY)
-        if (name && email && password && confirm) {
-            if (password !== confirm) {
-                // state.passwordError = true;
-                // console.log(state.passwordError);
-                setPasswordError(true)
-                console.log(passwordError)
-                  return
-            //    return dispatch({ type: "ERROR_SNACKBAR", payload: state.passwordError });
-            }
+        // const { name, email, password, confirm } = data;
+        // const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY)
+        // if (name && email && password && confirm) {
+        //     if (password !== confirm) {
+        //         // state.passwordError = true;
+        //         // console.log(state.passwordError);
+        //         setPasswordError(true)
+        //         console.log(passwordError)
+        //           return
+        //     //    return dispatch({ type: "ERROR_SNACKBAR", payload: state.passwordError });
+        //     }
         // const customer = await stripe.customers.create({
         //     name,
         //     email,
@@ -111,90 +111,90 @@ const initialState = {
             //         metadata:{password,confirm}
             //     });
             // }
-            console.log()
-            const customerQuery = await stripe.customers.search({
-             query: `email:'${email}'`,
-             limit:1
-            });
-           console.log(customerQuery)
-        if (customerQuery.data[0]?.email === email) {
-            setAccountError(true)
-            console.log('already exists')
-        } else {
-            const customer = await stripe.customers.create({
-                name,
-                email,
-                metadata:{password,confirm}
-            });
-            // console.log(customer)
-            localStorage.setItem('username',customer.name);
-            navigate('/');
-            navigate(0)
-        }   
-        }
+        //     console.log()
+        //     const customerQuery = await stripe.customers.search({
+        //      query: `email:'${email}'`,
+        //      limit:1
+        //     });
+        //    console.log(customerQuery)
+        // if (customerQuery.data[0]?.email === email) {
+        //     setAccountError(true)
+        //     console.log('already exists')
+        // } else {
+        //     const customer = await stripe.customers.create({
+        //         name,
+        //         email,
+        //         metadata:{password,confirm}
+        //     });
+        //     // console.log(customer)
+        //     localStorage.setItem('username',customer.name);
+        //     navigate('/');
+        //     navigate(0)
+        // }   
+        // }
         
     }
 
     function checkNumberSlider(number, number2, type) {
-        if (type === 'increment') {
-        if (number < 0) {
-            return  7- 1;
-        }
-        if (number >= 6) {
-            return 0
-        }
-          return number += number2  
-        }
-        if (type === 'decrement') {
-            if (number < 1) {
-                return state.ProductsData.length - 1;
-            }
-         if (number >= 6) {
-            return 7 - 2
-        }
-          return number -= number2  
-        }
+        // if (type === 'increment') {
+        // if (number < 0) {
+        //     return  7- 1;
+        // }
+        // if (number >= 6) {
+        //     return 0
+        // }
+        //   return number += number2  
+        // }
+        // if (type === 'decrement') {
+        //     if (number < 1) {
+        //         return state.ProductsData.length - 1;
+        //     }
+        //  if (number >= 6) {
+        //     return 7 - 2
+        // }
+        //   return number -= number2  
+        // }
         
     }
 
  const checkNumber=(number,number2) => {
-         if (number < 0) {
-           return 7 - 1;
+        //  if (number < 0) {
+        //    return 7 - 1;
            
-        }
-        if (number >= 6) {
-            return 0;
-        }
-        return number += number2 ;
+        // }
+        // if (number >= 6) {
+        //     return 0;
+        // }
+        // return number += number2 ;
     }
     function addToCart(id) {
-        dispatch({ type: 'ADD_CART', payload: id });
+        // dispatch({ type: 'ADD_CART', payload: id });
     }
     function changeAmount(id, value,type) {
         // console.log(id, value);
-        dispatch({ type: 'CHANGE_AMOUNT', payload: { id, value,type } });
+        // dispatch({ type: 'CHANGE_AMOUNT', payload: { id, value,type } });
     }
 
     function removeItem(id) {
-        dispatch({ type: "REMOVE_ITEM", payload: id });
+        // dispatch({ type: "REMOVE_ITEM", payload: id });
     }
     
     function moveRight() {
-      dispatch({ type: 'SLIDER_RIGHT', payload: { checkNumberSlider, number: 1 ,type:'increment'} })
+    //   dispatch({ type: 'SLIDER_RIGHT', payload: { checkNumberSlider, number: 1 ,type:'increment'} })
     }
      function moveLeft() {
-      dispatch({ type: 'SLIDER_LEFT', payload: { checkNumberSlider, number: 1 ,type:'decrement'} })
+    //   dispatch({ type: 'SLIDER_LEFT', payload: { checkNumberSlider, number: 1 ,type:'decrement'} })
     }
      function sliderInput(index) {
-         dispatch({ type: 'SLIDER_INPUT', payload: index });
+        //  dispatch({ type: 'SLIDER_INPUT', payload: index });
   }
     
  function search(text) {
-     dispatch({ type: 'SEARCHING', payload: text });    
+    //  dispatch({ type: 'SEARCHING', payload: text });    
 }
    
-   
-    return <appContext.Provider value={{...state,loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,uploadImage,checkNumber,passwordError,accountError}}>
+   const contextValues =useMemo(() => ({loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,uploadImage,checkNumber,passwordError,accountError}), [loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,uploadImage,checkNumber,passwordError,accountError])
+    return <appContext.Provider value={contextValues}>
     {children}
     </appContext.Provider>
 })

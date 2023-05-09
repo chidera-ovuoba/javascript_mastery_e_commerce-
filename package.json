@@ -8,7 +8,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "easybase-react": "^2.2.13",
+    "firebase": "^9.21.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
+    "firebase-tools": "^11.30.0",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.6"
   }
