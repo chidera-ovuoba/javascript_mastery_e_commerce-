@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { useGlobalContext } from '../lib/context';
 import { Link, useNavigate } from 'react-router-dom';
+import { signup } from '../lib/firebase';
 
 
 
-const SignUp = ({signup}) => {
+const SignUp = ({setNameInitialsArr}) => {
   // const { submitInfo,passwordError,accountError } = useGlobalContext();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   
  
 
@@ -20,7 +21,7 @@ const SignUp = ({signup}) => {
       <h1 className='text-2xl font-bold mb-6 text-yellow-800'>SIGN-UP</h1>
         <form className='flex flex-col gap-6 text-lg font-medium text-yellow-800' onSubmit={(e) => {
           e.preventDefault()
-          signup( name, email, password, confirm )
+          signup( name, email, password, confirm,setNameInitialsArr )
         }}>
                <div className='flex flex-col gap-2' >
                <label htmlFor="nameID">Name</label>

@@ -9,41 +9,7 @@ if (action.type === 'DISPLAY_DATA') {
     return { ...state, ProductsData: action.payload };
 }
     if (action.type === 'UPLOAD_IMAGE') {
-        let inputFile = document.getElementById('input-img-file');
-        let profileName = document.getElementById('image_profileName');
-        let imgContainer = document.getElementById('image_contanier');
-
-        console.log('upload')
-        inputFile.onchange = () => {
-            console.log('upload_in')
-            const fileUrl = inputFile.files[0]; 
-            const imgUrl= URL.createObjectURL(inputFile.files[0]);
-            const reader = new FileReader();
-            reader.readAsDataURL(fileUrl)
-            // console.log(inputFile.files)
-            reader.addEventListener('load', () => {
-                localStorage.setItem('userImg',reader.result);
-            })
-            if (imgUrl) {
-                [...imgContainer.children].map((item) => {
-            if (item.tagName === 'IMG' ) {
-                imgContainer.removeChild(item)
-            }
-            action.payload(false);
-             })
-                profileName.classList.add('hidden')
-            imgContainer.appendChild(
-                Object.assign(
-                    document.createElement('img'),
-                    {
-                        src: imgUrl,
-                        alt: 'profile_pic',
-                        className:'w-full h-full rounded-full img'
-                    }
-                 )
-             )
-         }  
-        }
+       
 
     return { ...state};
 }

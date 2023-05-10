@@ -1,6 +1,7 @@
 import React,{useContext,useState,useEffect,useReducer, useCallback, useMemo} from "react";
 import reducer from './reducer';
 import Stripe from "stripe";
+import {  updateProfile } from "firebase/auth";
 
 
 // const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY) 
@@ -74,9 +75,7 @@ const initialState = {
     //     }, 6000)
     // },[passwordError,accountError])
     
-    const uploadImage = (setOpenLogout) => {
-        dispatch({type:'UPLOAD_IMAGE',payload:setOpenLogout})
-    }
+    
      const submitInfo =async (data,navigate)=>{
         // const { name, email, password, confirm } = data;
         // const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY)
@@ -193,8 +192,8 @@ const initialState = {
     //  dispatch({ type: 'SEARCHING', payload: text });    
 }
    
-   const contextValues =useMemo(() => ({loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,uploadImage,checkNumber,passwordError,accountError}), [loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,uploadImage,checkNumber,passwordError,accountError])
-    return <appContext.Provider value={contextValues}>
+//    const contextValues =useMemo(() => ({}), [loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,uploadImage,checkNumber,passwordError,accountError])
+    return <appContext.Provider value={{loading,addToCart,changeAmount,removeItem,moveRight,moveLeft,sliderInput,search,submitInfo,checkNumber,passwordError,accountError}}>
     {children}
     </appContext.Provider>
 })

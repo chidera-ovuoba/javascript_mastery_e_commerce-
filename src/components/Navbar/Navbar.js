@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Search from './Search';
 import { BiUserCircle } from 'react-icons/bi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -7,23 +7,49 @@ import logo from '../../assests/logo (1).png'
 import { Link,useLocation, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../../lib/context';
 import { FaUserAlt } from 'react-icons/fa';
-const Navbar = ({prop:{userImg,username,auth}}) => {
+import { auth,uploadImage,logOut, storage } from '../../lib/firebase';
+import { getDownloadURL, listAll, ref } from 'firebase/storage';
+import { onAuthStateChanged } from 'firebase/auth';
+
+
+const Navbar = () => {
     // const classes = useStyles();
-    const {uploadImage}= useGlobalContext()
-    const navigate = useNavigate();
+    // const {uploadImage}= useGlobalContext()
+    // const navigate = useNavigate();
     const [openLogout, setOpenLogout] = useState(false)
     const [openNavMenu, setOpenNavMenu] = useState(false)
-    const nameInitialsArr = username?.split(' ');
-    const userImage = localStorage.getItem('userImg') || userImg;
+    const [userImage, setUserImage] = useState(null);
+    const nameInitialsArr = async () => await auth.currentUser?.displayName.slice(' ');
+
+    console.log(nameInitialsArr());
+    // const userImage = auth.currentUser?.photoURL || localStorage.getItem('userImg') ;
     // if (nameInitialsArr?.length > 1 ) {
-        console.log(nameInitialsArr)
+//         onAuthStateChanged(auth, user=> {
+//                 if (user) {
+//          
+//       //  setUsername(user.displayName);
+//       //  setUserImg(user.photoURL);
+//     } else {
+      
+//     }
+//    })
+// useEffect(() => {
+//   setNameInitialsArr(auth.currentUser?.displayName?.split(' '));
+// })
      // }
     // console.log(firstInitials)
-
-    const logOut = () => {
-        // localStorage.setItem('username', '');
-        // navigate(0);
-        // setOpenLogout(false)
+    //   const folderImgRef = ref(storage, 'customerImages/');
+    //      listAll(folderImgRef).then((response) => {
+    //          getDownloadURL(response.items?.find(item => item.name === auth.currentUser?.uid) || {})?.then((item) => {
+    //              setUserImage(item)
+    //          })
+    //             // console.log(response.items[0].name,response.items[0].fullPath)
+    //     }) 
+        console.log(userImage)
+    const signOut = () => {
+        logOut()
+        setUserImage(null)
+        setOpenLogout(false)
     }
 
 
@@ -38,7 +64,7 @@ const Navbar = ({prop:{userImg,username,auth}}) => {
                       <li className='px-3 hover:text-orange-400 md:hidden block'><Link to="/products">Products</Link></li>
                       <li className='px-3 text-3xl sm:text-2xl relative'><Link to="/" className='hover:text-orange-400'><AiOutlineShoppingCart /></Link><div className='bg-orange-500 grid place-items-center rounded-full text-sm w-5 h-5 text-justify  absolute -top-2 right-1'>1</div></li>
                         <li className='px-3 relative block sm:px-2'>
-                        <div className='w-[40px] h-[40px] bg-orange-500 grid place-items-center rounded-full' id='image_contanier' onClick={() => setOpenLogout((prev) => !prev)}>
+                        <div className='w-[40px] h-[40px] bg-orange-500 grid place-items-center cursor-pointer rounded-full' id='image_contanier' onClick={() => setOpenLogout((prev) => !prev)}>
                                 <div className={userImage ? 'hidden':'text-xl font-bold uppercase'} id='image_profileName'>{nameInitialsArr?.length > 1 ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt />}</div>
                                 <img src={userImage} alt='userImg' className={userImage ? 'w-full h-full rounded-full img': 'hidden'} />
                         </div>
@@ -48,9 +74,9 @@ const Navbar = ({prop:{userImg,username,auth}}) => {
                             <>
                             <input type="file" accept='image/jpeg,image/jpg,image/png' id="input-img-file" className='hidden' />
                             <label htmlFor="input-img-file" className='text-yellow-700 cursor-pointer' onClick={() => {
-                                uploadImage(setOpenLogout)
+                                uploadImage(setOpenLogout,setUserImage)
                             }}>Upload Image</label>
-                            <button className='bg-[#f57c0a] rounded-sm px-2 py-1' onClick={logOut}>LOG OUT</button>
+                            <button className='bg-[#f57c0a] rounded-sm px-2 py-1' onClick={signOut}>LOG OUT</button>
                             </>
                                         :
                                     <>
