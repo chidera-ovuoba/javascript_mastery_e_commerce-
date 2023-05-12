@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 import { useGlobalContext } from '../lib/context';
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../lib/firebase';
+import Loader from '../components/Loader';
 
 
 
-const SignUp = ({setNameInitialsArr}) => {
+const SignUp = () => {
   // const { submitInfo,passwordError,accountError } = useGlobalContext();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const navigate = useNavigate();
+  const [loaing, setLoading] = useState(false);
   
  
 
@@ -21,7 +22,7 @@ const SignUp = ({setNameInitialsArr}) => {
       <h1 className='text-2xl font-bold mb-6 text-yellow-800'>SIGN-UP</h1>
         <form className='flex flex-col gap-6 text-lg font-medium text-yellow-800' onSubmit={(e) => {
           e.preventDefault()
-          signup( name, email, password, confirm,setNameInitialsArr )
+          signup( name, email, password, confirm,setLoading)
         }}>
                <div className='flex flex-col gap-2' >
                <label htmlFor="nameID">Name</label>
@@ -40,7 +41,7 @@ const SignUp = ({setNameInitialsArr}) => {
                <input type="password" className='outline-none border-yellow-800 border-b-2 focus:border-yellow-500 border-solid pb-3 max-w-[26rem] bg-transparent w-[90vw]' placeholder='enter password' id='confirmID' value={confirm} onChange={(e) => setConfirm(e.target.value)}  />
                </div>         
                
-           <button type='submit' className='bg-orange-500 mt-4 text-orange-800 font-medium  text-center text-md text-white p-3 rounded-lg place-self-start mb-5'>REGISTER</button>
+           <button type='submit' className='bg-orange-500 mt-4 text-orange-800 font-medium  text-center text-md text-white p-3 rounded-lg place-self-start mb-5'>REGISTER <Loader/></button>
           
         </form>
 

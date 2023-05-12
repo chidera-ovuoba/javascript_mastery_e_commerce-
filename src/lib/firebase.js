@@ -20,15 +20,20 @@ const firebaseConfig = {
   
   onAuthStateChanged(auth, user=> {
     if (user) {
-      console.log(auth.currentUser)
-      //  setUsername(user.displayName);
-      //  setUserImg(user.photoURL);
+      localStorage.setItem('username',user.displayName)
+      localStorage.setItem('userImg',user.photoURL)
     } else {
-      
+       localStorage.setItem('username','')
+      localStorage.setItem('userImg','')
     }
    })
-export const logOut = async () => { 
-   await signOut(auth)
+export const logOut = async (setLoading) => {
+  setLoading(true)
+  await signOut(auth).then(() => {
+    localStorage.setItem('username','')
+    localStorage.setItem('userImg','')
+    setLoading(false)
+   })
 }
 
   
@@ -41,28 +46,33 @@ export const logOut = async () => {
     }
   }
   
-  const login = async () => {
-    const loginEmail = 'ovuoachidera@gmail.com';
-    const loginPassword = 'o123hd';
+export const login = async (email, password,setLoading) => {
+    setLoading(true)
     try{
   
-      const userCrediential = await signInWithEmailAndPassword(auth,loginEmail,loginPassword);
-      console.log(userCrediential);
+       await signInWithEmailAndPassword(auth, email, password).then((user) => {
+          localStorage.setItem('username', [user.user.displayName])
+          // console.log(user)
+         setLoading(false)
+          window.history.back();
+      })
     } catch (error) {
       console.log(error)
       showLoginError(error)
     }
   }
- export const signup = async (name,email,password,confirm,userName) => {
+ export const signup = async (name,email,password,confirm,setLoading) => {
     if (name && email && password && confirm) {
       if (password == confirm) {
+        setLoading(true)
     try{
           await createUserWithEmailAndPassword(auth, email, password).then(() => {
             updateProfile(auth.currentUser, {
             displayName:name ,
             }).then(() => {
-                userName(auth.currentUser?.displayName?.split(' '))
+              localStorage.setItem('username',[auth.currentUser?.displayName])
                 // console.log(user)
+              setLoading(false)
                 window.location.replace(window.location.origin); 
             })
             
@@ -77,12 +87,13 @@ export const logOut = async () => {
    
     
 
- export const uploadImage = (setOpenLogout,setUserImage) => {
+ export const uploadImage = (setOpenLogout,setLoading) => {
          let inputFile = document.getElementById('input-img-file');
         let profileName = document.getElementById('image_profileName');
         let imgContainer = document.getElementById('image_contanier');
         // const {setOpenLogout,updateProfile,auth}=action.payload
-
+        
+        setLoading(true)
         // console.log('upload')
         inputFile.onchange = () => {
             console.log('upload_in')
@@ -92,7 +103,6 @@ export const logOut = async () => {
             // reader.readAsDataURL(fileUrl)
             const imageRef = ref(storage, `customerImages/${auth.currentUser.uid}`);
             uploadBytes(imageRef, fileUrl).then((snap) => {
-                alert('uploaded');
                 getDownloadURL(snap.ref).then((url) => {
                 [...imgContainer.children].map((item) => {
                 if (item.tagName === 'IMG' ) {
@@ -111,7 +121,11 @@ export const logOut = async () => {
                         }
                      )
                  )
-                  setUserImage(url)  
+                  localStorage.setItem('userImg', url);
+                  updateProfile(auth.currentUser, {
+                  photoURL:url ,
+                  })
+                  setLoading(false);
                 })
             })
             // // console.log(inputFile.files)

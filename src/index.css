@@ -30,18 +30,9 @@ a,button,div,span{
         user-select: none;
 }
 .container_loader {
-    background-color: darkgrey;
-    width: 100vw;
-    height: 100vh;
     display: grid;
     place-content: center;
 }
-
-.spinner-text {
-    font-size: 2em;
-    animation: loading-opacity 2s ease-in infinite;
-}
-
 
 
 .spinner {
@@ -49,8 +40,8 @@ a,button,div,span{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 300px;
-    height: 300px;
+    width: inherit;
+    height: inherit;
 }
 
 .spinner-sector {
@@ -58,23 +49,27 @@ a,button,div,span{
     height: 100%;
     position: absolute;
     border-radius: 50%;
-    border: 15px solid transparent;
+    border: 5px solid transparent;
     mix-blend-mode: overlay;
+    animation: rotate 1.5s ease infinite;
 }
 
 .spinner-sector-blue {
-    animation: rotate 2s ease-out infinite;
-    border-top: 15px solid rgb(12, 150, 196);
+    border-top: 5px solid rgb(255, 232, 22);
+    border-left: 5px solid rgb(255, 232, 22);
+    border-bottom: 5px solid rgb(255, 232, 22);
 }
 
 .spinner-sector-red {
-    animation: rotate 2.5s ease-in infinite;
-    border-top: 15px solid rgb(195, 10, 10);
+    border-top: 5px solid rgb(195, 10, 10);
+    border-left: 5px solid rgb(195, 10, 10);
+    border-bottom: 5px solid rgb(195, 10, 10);
 }
 
 .spinner-sector-green {
-    border-top: 15px solid rgb(35, 252, 35);
-    animation: rotate 1.5s ease-in-out infinite;
+    border-top: 5px solid rgba(146, 64, 14, 1);
+    border-left: 5px solid rgba(146, 64, 14, 1);
+    border-bottom: 5px solid rgba(146, 64, 14, 1);
 }
 .fadeIn{
     animation: fade-opacity 0.8s ease-in-out ;
@@ -312,22 +307,7 @@ p.star {
     }
 }
 
-@keyframes loading-opacity {
 
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    25%,
-    75% {
-        opacity: .5
-    }
-
-    50% {
-        opacity: .1;
-    }
-}
 @keyframes fade-opacity {
 
     0%{

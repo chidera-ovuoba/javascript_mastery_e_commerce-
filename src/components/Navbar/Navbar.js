@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Search from './Search';
 import { BiUserCircle } from 'react-icons/bi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -10,6 +10,7 @@ import { FaUserAlt } from 'react-icons/fa';
 import { auth,uploadImage,logOut, storage } from '../../lib/firebase';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { onAuthStateChanged } from 'firebase/auth';
+import Loader from '../Loader';
 
 
 const Navbar = () => {
@@ -18,10 +19,13 @@ const Navbar = () => {
     // const navigate = useNavigate();
     const [openLogout, setOpenLogout] = useState(false)
     const [openNavMenu, setOpenNavMenu] = useState(false)
-    const [userImage, setUserImage] = useState(null);
-    const nameInitialsArr = async () => await auth.currentUser?.displayName.slice(' ');
+    const [profileImgLoading, setProfileImgLoading] = useState(false);
+    // const [, setNameInitialsArr] = useState(null);
+    const nameInitialsArr = localStorage.getItem('username')?.split(' ')
+    const userImage = localStorage.getItem('userImg')
+    // console.log(,'hj');
 
-    console.log(nameInitialsArr());
+        // setNameInitialsArr(user)
     // const userImage = auth.currentUser?.photoURL || localStorage.getItem('userImg') ;
     // if (nameInitialsArr?.length > 1 ) {
 //         onAuthStateChanged(auth, user=> {
@@ -48,7 +52,6 @@ const Navbar = () => {
         console.log(userImage)
     const signOut = () => {
         logOut()
-        setUserImage(null)
         setOpenLogout(false)
     }
 
@@ -59,41 +62,42 @@ const Navbar = () => {
           <div className='font-bold text-3xl md_1:text-xl sm:text-[15px] text-yellow-500 flex items-center'><img src={logo} alt='logo-pic' className='w-8 h-10 mr-2 sm:w-6 sm:h-8 sm:mr-1' />Freedom<span className='text-orange-600'>MR</span></div>
               <div className="flex">
                   <Search />
-                  <ul className='flex justify-between items-center text-lg sm:text-[12px] text-orange-900 font-medium'>
-                      <li className='px-3 hover:text-orange-400 md:hidden block'><Link to="/">Home</Link></li>
-                      <li className='px-3 hover:text-orange-400 md:hidden block'><Link to="/products">Products</Link></li>
-                      <li className='px-3 text-3xl sm:text-2xl relative'><Link to="/" className='hover:text-orange-400'><AiOutlineShoppingCart /></Link><div className='bg-orange-500 grid place-items-center rounded-full text-sm w-5 h-5 text-justify  absolute -top-2 right-1'>1</div></li>
-                        <li className='px-3 relative block sm:px-2'>
+                  <ul className='flex justify-between gap-[2rem] xs:gap-[1rem] items-center text-lg sm:text-[12px] text-orange-900 font-medium'>
+                      <li className='hover:text-orange-400 md:hidden block'><Link to="/">Home</Link></li>
+                      <li className='hover:text-orange-400 md:hidden block'><Link to="/products">Products</Link></li>
+                      <li className='text-3xl sm:text-2xl relative'><Link to="/" className='hover:text-orange-400'><AiOutlineShoppingCart /></Link><div className='bg-orange-500 grid place-items-center rounded-full text-sm xs:text-[10px] w-6 h-6 text-justify  absolute -top-3 -right-1'>1</div></li>
+                        <li className='flex items-center justify-center gap-[1rem] xs:gap-[0.3rem]  relative'>
                         <div className='w-[40px] h-[40px] bg-orange-500 grid place-items-center cursor-pointer rounded-full' id='image_contanier' onClick={() => setOpenLogout((prev) => !prev)}>
-                                <div className={userImage ? 'hidden':'text-xl font-bold uppercase'} id='image_profileName'>{nameInitialsArr?.length > 1 ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt />}</div>
-                                <img src={userImage} alt='userImg' className={userImage ? 'w-full h-full rounded-full img': 'hidden'} />
-                        </div>
-                        {openLogout && <div className='absolute -bottom-[7rem] w-[8rem] bg-white left-[50%] -translate-x-1/2 grid place-items-center gap-4 py-4 shadow-md text-white text-sm  rounded-sm'>
+                                <div className={userImage != 'null' && userImage  ? 'hidden':'text-xl font-bold uppercase'} id='image_profileName'>{nameInitialsArr?.length > 1 && auth.currentUser ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt />}</div>
+                                <img src={userImage} alt='userImg' className={userImage != 'null' && userImage  ? 'w-full h-full rounded-full img': 'hidden'} />
+                            </div>
+                            {profileImgLoading && <Loader w={'2rem'} h={'2rem'} color={'red'}/>}
+                        {openLogout && <div className='absolute -bottom-[7rem] w-[8rem] bg-white -left-[1rem] -translate-x-1/2 grid place-items-center gap-4 py-4 shadow-md text-white text-sm  rounded-sm'>
                         {
                             auth.currentUser ?
                             <>
                             <input type="file" accept='image/jpeg,image/jpg,image/png' id="input-img-file" className='hidden' />
                             <label htmlFor="input-img-file" className='text-yellow-700 cursor-pointer' onClick={() => {
-                                uploadImage(setOpenLogout,setUserImage)
+                                uploadImage(setOpenLogout,setProfileImgLoading)
                             }}>Upload Image</label>
-                            <button className='bg-[#f57c0a] rounded-sm px-2 py-1' onClick={signOut}>LOG OUT</button>
+                            <button className='bg-[#f57c0a] rounded-sm px-2 py-1' onClick={signOut}>LOG OUT <Loader color={'green'}  /></button>
                             </>
                                         :
                                     <>
-                                    <Link className='text-yellow-700 cursor-pointer' to='/signin'>Sign In</Link>
-                                    <Link className='text-yellow-700 cursor-pointer' to='/signup'>Sign Up</Link>
+                                    <Link className='text-yellow-700 cursor-pointer' to='/signin' onClick={()=>setOpenLogout(false)}>Sign In</Link>
+                                    <Link className='text-yellow-700 cursor-pointer' to='/signup' onClick={()=>setOpenLogout(false)}>Sign Up</Link>
                                     </>
                                     
                                 }
                         </div>}
                         {
-                            openNavMenu && <div className = 'absolute -bottom-[7rem] w-[8rem] bg-white right-1/4 text-lg grid place-items-center py-5 shadow-md' >
+                            openNavMenu && <div className = 'absolute -bottom-[7rem] w-[8rem] bg-white -right-10 text-lg place-items-center py-5 shadow-md md:grid hidden' >
                             <p className='hover:text-yellow-400' onClick={()=>setOpenNavMenu(false)}><Link to="/">Home</Link></p>
                             <p className='hover:text-yellow-400' onClick={()=>setOpenNavMenu(false)}><Link to="/products">Products</Link></p>
                             </div>
                         }
                       </li>
-                      <li className='px-3 text-3xl sm:text-2xl hover:text-yellow-400 relative md:block hidden' onClick={()=>setOpenNavMenu((prev)=>!prev)}><ImMenu3 />
+                      <li className='text-3xl sm:text-2xl hover:text-yellow-400 relative md:block hidden' onClick={()=>setOpenNavMenu((prev)=>!prev)}><ImMenu3 />
                       </li>
                   </ul>
               </div>
@@ -109,7 +113,7 @@ export default Navbar
             //           <Badge badgeContent={total} color='secondary' overlap="rectangular">
             //               <ShoppingCart />
             //           </Badge>
-            //       </IconButton>
+            //       </IconButton> 
             //   }
 
             // <div className='absolute -bottom-[4rem] w-[8rem] bg-white left-[50%] -translate-x-1/2 grid place-items-center py-4 shadow-md'><button className='text-white px-2 py-1 text-sm bg-[#f57c0a] rounded-sm'>LOG OUT</button></div>

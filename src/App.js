@@ -24,7 +24,6 @@ const App = () => {
   const [userImg, setUserImg] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   const [paymentIntentId, setPaymentIntentId] = useState("");
-  const [nameInitialsArr, setNameInitialsArr] = useState([])
 
 
    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
@@ -140,13 +139,13 @@ const App = () => {
     
   return (
     <div>
-      <Navbar nameInitialsArr={nameInitialsArr}  />
+      <Navbar  />
       <div className='bg-yellow-300'>
       <Routes>
             <Route exact path='/' element={<Home productsPanelData={productsPanelData} products={productsData} />} />
             <Route path='/products' element={<Products products={productsData} />}></Route>
           <Route  path='/signin' element={<SignIn />}></Route>
-            <Route path='/signup' element={<SignUp setNameInitialsArr={setNameInitialsArr}  />}></Route>
+            <Route path='/signup' element={<SignUp   />}></Route>
           <Route  path='/singleproduct/:id' element={<SingleProduct />}></Route>
           <Route  path='/carts' element={<Carts />}></Route>
           </Routes>    
