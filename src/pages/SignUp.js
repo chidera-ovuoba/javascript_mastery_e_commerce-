@@ -12,7 +12,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [loaing, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   
  
 
@@ -41,7 +41,7 @@ const SignUp = () => {
                <input type="password" className='outline-none border-yellow-800 border-b-2 focus:border-yellow-500 border-solid pb-3 max-w-[26rem] bg-transparent w-[90vw]' placeholder='enter password' id='confirmID' value={confirm} onChange={(e) => setConfirm(e.target.value)}  />
                </div>         
                
-           <button type='submit' className='bg-orange-500 mt-4 text-orange-800 font-medium  text-center text-md text-white p-3 rounded-lg place-self-start mb-5'>REGISTER <Loader/></button>
+           <button type='submit' className='bg-orange-500 mt-4 text-orange-800 font-medium  text-center text-md text-white p-3 rounded-lg place-self-start mb-5 flex justify-center items-center gap-2'>REGISTER {loading && <Loader color={'green'}/>}</button>
           
         </form>
 
@@ -52,6 +52,6 @@ const SignUp = () => {
    
   )
 }
-// <article className={`fixed w-[12rem] text-center h-auto bg-white left-[50%] border-t-4 px-3 py-1 text-sm font-medium border-t-red-500 -translate-x-1/2 -bottom-[4rem]  ${passwordError || accountError ? 'slide_up_down' : ''}`}>{passwordError && 'passwords are not identical'}{accountError && 'Account Already Exists' }</article>
+
 
 export default SignUp

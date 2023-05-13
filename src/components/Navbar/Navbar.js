@@ -67,7 +67,10 @@ const Navbar = () => {
                       <li className='hover:text-orange-400 md:hidden block'><Link to="/products">Products</Link></li>
                       <li className='text-3xl sm:text-2xl relative'><Link to="/" className='hover:text-orange-400'><AiOutlineShoppingCart /></Link><div className='bg-orange-500 grid place-items-center rounded-full text-sm xs:text-[10px] w-6 h-6 text-justify  absolute -top-3 -right-1'>1</div></li>
                         <li className='flex items-center justify-center gap-[1rem] xs:gap-[0.3rem]  relative'>
-                        <div className='w-[40px] h-[40px] bg-orange-500 grid place-items-center cursor-pointer rounded-full' id='image_contanier' onClick={() => setOpenLogout((prev) => !prev)}>
+                            <div className='w-[40px] h-[40px] bg-orange-500 grid place-items-center cursor-pointer rounded-full' id='image_contanier' onClick={() => {
+                                setOpenLogout((prev) => !prev)
+                               openNavMenu && setOpenNavMenu(false);
+                            }}>
                                 <div className={userImage != 'null' && userImage  ? 'hidden':'text-xl font-bold uppercase'} id='image_profileName'>{nameInitialsArr?.length > 1 && auth.currentUser ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt />}</div>
                                 <img src={userImage} alt='userImg' className={userImage != 'null' && userImage  ? 'w-full h-full rounded-full img': 'hidden'} />
                             </div>
@@ -97,7 +100,10 @@ const Navbar = () => {
                             </div>
                         }
                       </li>
-                      <li className='text-3xl sm:text-2xl hover:text-yellow-400 relative md:block hidden' onClick={()=>setOpenNavMenu((prev)=>!prev)}><ImMenu3 />
+                        <li className='text-3xl sm:text-2xl hover:text-yellow-400 relative md:block hidden' onClick={() => {
+                            setOpenNavMenu((prev) => !prev)
+                           openLogout && setOpenLogout(false)
+                        }}><ImMenu3 />
                       </li>
                   </ul>
               </div>
