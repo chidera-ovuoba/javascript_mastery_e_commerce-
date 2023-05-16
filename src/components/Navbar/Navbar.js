@@ -20,6 +20,7 @@ const Navbar = () => {
     const [openLogout, setOpenLogout] = useState(false)
     const [openNavMenu, setOpenNavMenu] = useState(false)
     const [profileImgLoading, setProfileImgLoading] = useState(false);
+    const [LogoutLoading, setLogoutLoading] = useState(false);
     // const [, setNameInitialsArr] = useState(null);
     const nameInitialsArr = localStorage.getItem('username')?.split(' ')
     const userImage = localStorage.getItem('userImg')
@@ -51,7 +52,7 @@ const Navbar = () => {
     //     }) 
         console.log(userImage)
     const signOut = () => {
-        logOut()
+        logOut(setLogoutLoading)
         setOpenLogout(false)
     }
 
@@ -83,7 +84,7 @@ const Navbar = () => {
                             <label htmlFor="input-img-file" className='text-yellow-700 cursor-pointer' onClick={() => {
                                 uploadImage(setOpenLogout,setProfileImgLoading)
                             }}>Upload Image</label>
-                            <button className='bg-[#f57c0a] rounded-sm px-2 py-1' onClick={signOut}>LOG OUT <Loader color={'green'}  /></button>
+                            <button className='bg-[#f57c0a] rounded-sm px-2 py-1 flex items-center justify-center gap-2' onClick={signOut}>LOG OUT { LogoutLoading && <Loader color={'green'}  />}</button>
                             </>
                                         :
                                     <>

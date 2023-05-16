@@ -37,31 +37,34 @@ export const logOut = async (setLoading) => {
 }
 
   
-  const showLoginError = async (error) => { 
-    if (error.code == AuthErrorCodes.INVALID_PASSWORD) {
-      
+export const showError = async (error,setError) => {
+    if (error.code === AuthErrorCodes.INVALID_PASSWORD) {
+     return setError('password is incorrect')
     }
-    if (error.code == AuthErrorCodes.INVALID_EMAIL) {
-      
+    if (error.code === AuthErrorCodes.INVALID_EMAIL) {
+     return setError('Email is invalid')
     }
+  if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
+    return setError('Account is already in use')
+  }
+  return setError(error.code)
   }
   
-export const login = async (email, password,setLoading) => {
+export const login = async (email, password,setLoading,setError) => {
     setLoading(true)
     try{
   
        await signInWithEmailAndPassword(auth, email, password).then((user) => {
           localStorage.setItem('username', [user.user.displayName])
-          // console.log(user)
          setLoading(false)
           window.history.back();
       })
     } catch (error) {
-      console.log(error)
-      showLoginError(error)
+      setLoading(false)
+      showError(error,setError)
     }
   }
- export const signup = async (name,email,password,confirm,setLoading) => {
+ export const signup = async (name,email,password,confirm,setLoading,setError) => {
     if (name && email && password && confirm) {
       if (password == confirm) {
         setLoading(true)
@@ -78,8 +81,8 @@ export const login = async (email, password,setLoading) => {
             
           });
     } catch (error) {
-      console.log(error)
-      showLoginError(error)
+      setLoading(false)
+      showError(error,setError)
     }
   }
   }
@@ -91,16 +94,10 @@ export const login = async (email, password,setLoading) => {
          let inputFile = document.getElementById('input-img-file');
         let profileName = document.getElementById('image_profileName');
         let imgContainer = document.getElementById('image_contanier');
-        // const {setOpenLogout,updateProfile,auth}=action.payload
         
         setLoading(true)
-        // console.log('upload')
         inputFile.onchange = () => {
-            console.log('upload_in')
             const fileUrl = inputFile.files[0]; 
-            // const imgUrl= URL.createObjectURL(inputFile.files[0]);
-            // const reader = new FileReader();
-            // reader.readAsDataURL(fileUrl)
             const imageRef = ref(storage, `customerImages/${auth.currentUser.uid}`);
             uploadBytes(imageRef, fileUrl).then((snap) => {
                 getDownloadURL(snap.ref).then((url) => {
@@ -128,37 +125,6 @@ export const login = async (email, password,setLoading) => {
                   setLoading(false);
                 })
             })
-            // // console.log(inputFile.files)
-            // reader.addEventListener('load', () => {
-            // const imgUrl= URL.createObjectURL(new Blob([inputFile.files[0]]));
-            //     // localStorage.setItem('userImg', reader.result);
-            //     updateProfile(auth.currentUser, {
-            //       photoURL:imgUrl,
-            //     }).then(() => {
-            //       // Profile updated!
-            //       console.log('profile updated')
-            //     }).catch((error) => {
-            //       console.log(error)
-            //     });
-            // })
-        //     if (imgUrl) {
-        //     [...imgContainer.children].map((item) => {
-        //     if (item.tagName === 'IMG' ) {
-        //         imgContainer.removeChild(item)
-        //     }
-        //     setOpenLogout(false);
-        //     })
-        //     profileName.classList.add('hidden')
-        //     imgContainer.appendChild(
-        //         Object.assign(
-        //             document.createElement('img'),
-        //             {
-        //                 src: imgUrl,
-        //                 alt: 'profile_pic',
-        //                 className:'w-full h-full rounded-full img'
-        //             }
-        //          )
-        //      )
-        //  }  
+            
         }
     }

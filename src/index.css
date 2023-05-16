@@ -74,6 +74,9 @@ a,button,div,span{
 .fadeIn{
     animation: fade-opacity 0.8s ease-in-out ;
 }
+#forget_password_checkbox:checked + label + form{
+    display: flex;
+}
 
 .products_panel {
     -ms-overflow-style: none;

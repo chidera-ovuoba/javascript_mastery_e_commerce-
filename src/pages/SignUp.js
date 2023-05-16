@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../lib/context';
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../lib/firebase';
 import Loader from '../components/Loader';
+import Snackbar from '../components/Snackbar';
 
 
 
@@ -13,7 +14,18 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [loading, setLoading] = useState(false);
-  
+  const [errorText, setErrorText] = useState('');
+  console.log('signup rerendered')
+   useEffect(() => {
+      const timeout =  setTimeout(() => {
+            if (errorText) {
+                setErrorText('')
+            }
+      }, 6000)
+     return () => {
+       clearTimeout(timeout)
+     }
+    },[errorText])
  
 
   return (
@@ -22,7 +34,7 @@ const SignUp = () => {
       <h1 className='text-2xl font-bold mb-6 text-yellow-800'>SIGN-UP</h1>
         <form className='flex flex-col gap-6 text-lg font-medium text-yellow-800' onSubmit={(e) => {
           e.preventDefault()
-          signup( name, email, password, confirm,setLoading)
+          signup( name, email, password, confirm,setLoading,setErrorText)
         }}>
                <div className='flex flex-col gap-2' >
                <label htmlFor="nameID">Name</label>
@@ -42,7 +54,9 @@ const SignUp = () => {
                </div>         
                
            <button type='submit' className='bg-orange-500 mt-4 text-orange-800 font-medium  text-center text-md text-white p-3 rounded-lg place-self-start mb-5 flex justify-center items-center gap-2'>REGISTER {loading && <Loader color={'green'}/>}</button>
-          
+          {
+            errorText && <Snackbar errorText={errorText}  />
+          }
         </form>
 
      
