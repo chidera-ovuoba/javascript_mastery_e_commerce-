@@ -13,7 +13,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import Loader from '../Loader';
 
 
-const Navbar = () => {
+const Navbar = ({nameInitialsArr,setNameInitialsArr}) => {
     // const classes = useStyles();
     // const {uploadImage}= useGlobalContext()
     // const navigate = useNavigate();
@@ -21,8 +21,7 @@ const Navbar = () => {
     const [openNavMenu, setOpenNavMenu] = useState(false)
     const [profileImgLoading, setProfileImgLoading] = useState(false);
     const [LogoutLoading, setLogoutLoading] = useState(false);
-    // const [, setNameInitialsArr] = useState(null);
-    const nameInitialsArr = localStorage.getItem('username')?.split(' ')
+    // const  = 2
     const userImage = localStorage.getItem('userImg')
     // console.log(,'hj');
 
@@ -54,6 +53,7 @@ const Navbar = () => {
     const signOut = () => {
         logOut(setLogoutLoading)
         setOpenLogout(false)
+        setNameInitialsArr([])
     }
 
 
@@ -72,11 +72,11 @@ const Navbar = () => {
                                 setOpenLogout((prev) => !prev)
                                openNavMenu && setOpenNavMenu(false);
                             }}>
-                                <div className={userImage != 'null' && userImage  ? 'hidden':'text-xl font-bold uppercase'} id='image_profileName'>{nameInitialsArr?.length > 1 && auth.currentUser ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt />}</div>
+                                <div className={userImage != 'null' && userImage  ? 'hidden':'text-xl font-bold uppercase'} id='image_profileName'>{nameInitialsArr.length > 1 ? nameInitialsArr?.[0]?.charAt(0).concat(nameInitialsArr?.[1]?.charAt(0)) : nameInitialsArr?.[0]?.slice(0, 2)}{!nameInitialsArr?.[0] && <FaUserAlt />}</div>
                                 <img src={userImage} alt='userImg' className={userImage != 'null' && userImage  ? 'w-full h-full rounded-full img': 'hidden'} />
                             </div>
                             {profileImgLoading && <Loader w={'2rem'} h={'2rem'} color={'red'}/>}
-                        {openLogout && <div className='absolute -bottom-[7rem] w-[8rem] bg-white -left-[1rem] -translate-x-1/2 grid place-items-center gap-4 py-4 shadow-md text-white text-sm  rounded-sm'>
+                        {openLogout && <div className='fixed top-[5rem] w-[8rem] bg-white -right-[2rem] -translate-x-1/2 grid place-items-center gap-4 py-4 shadow-md text-white text-sm  rounded-sm'>
                         {
                             auth.currentUser ?
                             <>

@@ -4,10 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../lib/firebase';
 import Loader from '../components/Loader';
 import Snackbar from '../components/Snackbar';
+import SignWIthGoogle from '../components/SignWIthGoogle';
 
 
-
-const SignUp = () => {
+const SignUp = ({setNameInitialsArr}) => {
   // const { submitInfo,passwordError,accountError } = useGlobalContext();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -34,7 +34,7 @@ const SignUp = () => {
       <h1 className='text-2xl font-bold mb-6 text-yellow-800'>SIGN-UP</h1>
         <form className='flex flex-col gap-6 text-lg font-medium text-yellow-800' onSubmit={(e) => {
           e.preventDefault()
-          signup( name, email, password, confirm,setLoading,setErrorText)
+          signup( name, email, password, confirm,setLoading,setErrorText,setNameInitialsArr)
         }}>
                <div className='flex flex-col gap-2' >
                <label htmlFor="nameID">Name</label>
@@ -58,8 +58,7 @@ const SignUp = () => {
             errorText && <Snackbar errorText={errorText}  />
           }
         </form>
-
-     
+        <SignWIthGoogle/>
       <span className='place-start text-lg  text-yellow-800'>Have an account ?<Link to="/signin" className='cursor-pointer focus:text-yellow-500 hover:text-yellow-500 font-bold'>Login</Link></span>
       </div>
     </div>

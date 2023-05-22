@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, AuthErrorCodes, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
+import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, AuthErrorCodes, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut, signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
 import {getDownloadURL, getStorage, listAll, ref, uploadBytes } from 'firebase/storage'
 
 
@@ -18,15 +18,7 @@ const firebaseConfig = {
   export const auth = getAuth(app);
   export const storage = getStorage(app)
   
-  onAuthStateChanged(auth, user=> {
-    if (user) {
-      localStorage.setItem('username',user.displayName)
-      localStorage.setItem('userImg',user.photoURL)
-    } else {
-       localStorage.setItem('username','')
-      localStorage.setItem('userImg','')
-    }
-   })
+  
 export const logOut = async (setLoading) => {
   setLoading(true)
   await signOut(auth).then(() => {
@@ -50,12 +42,13 @@ export const showError = async (error,setError) => {
   return setError(error.code)
   }
   
-export const login = async (email, password,setLoading,setError) => {
+export const login = async (email, password,setLoading,setError,setNameInitialsArr) => {
     setLoading(true)
     try{
   
        await signInWithEmailAndPassword(auth, email, password).then((user) => {
-          localStorage.setItem('username', [user.user.displayName])
+         localStorage.setItem('username', [user.user.displayName])
+         setNameInitialsArr(user.user.displayName.split(' '))
          setLoading(false)
           window.history.back();
       })
@@ -64,7 +57,7 @@ export const login = async (email, password,setLoading,setError) => {
       showError(error,setError)
     }
   }
- export const signup = async (name,email,password,confirm,setLoading,setError) => {
+ export const signup = async (name,email,password,confirm,setLoading,setError,setNameInitialsArr) => {
     if (name && email && password && confirm) {
       if (password == confirm) {
         setLoading(true)
@@ -73,7 +66,8 @@ export const login = async (email, password,setLoading,setError) => {
             updateProfile(auth.currentUser, {
             displayName:name ,
             }).then(() => {
-              localStorage.setItem('username',[auth.currentUser?.displayName])
+              localStorage.setItem('username', [auth.currentUser?.displayName])
+              setNameInitialsArr(auth.currentUser?.displayName?.split(' '))
                 // console.log(user)
               setLoading(false)
                 window.location.replace(window.location.origin); 
@@ -86,6 +80,10 @@ export const login = async (email, password,setLoading,setError) => {
     }
   }
   }
+}
+export const handleGoogleAuth = () => {
+  console.log('go')
+    signInWithRedirect(auth,new GoogleAuthProvider())
   }
    
     

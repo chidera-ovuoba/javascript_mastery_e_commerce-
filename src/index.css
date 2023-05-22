@@ -77,6 +77,15 @@ a,button,div,span{
 #forget_password_checkbox:checked + label + form{
     display: flex;
 }
+.signin_title::after,
+.signin_title::before
+{
+    content: '';
+    display: flex;
+    width:10rem;
+    height:1px;
+    background-color: black;
+}
 
 .products_panel {
     -ms-overflow-style: none;
@@ -355,4 +364,14 @@ p.star {
      .service_container:nth-of-type(2):after{
         display:block
     }
+    .signin_title::after,
+    .signin_title::before {
+        width: 6rem;
+    }
+}
+@media (width < 340px) {
+    .signin_title::after,
+        .signin_title::before {
+            width: 4rem;
+        }
 }

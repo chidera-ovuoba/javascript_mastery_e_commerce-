@@ -23,15 +23,15 @@ const Home = ({productsPanelData,products}) => {
 return (
 <div> 
 <div className='grid place-items-center pt-32'>
+<Products products={products}/>
 </div>
 
 </div>
-  )
+)
 }
 // <Slider sliderIndex={sliderIndex} />
 // <ProductsPanel productsPanelData={productsPanelData} />
 // <ProductSection/>
 // <Testimonial/>
-// <Products products={products}/>
 
 export default Home

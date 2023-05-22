@@ -4,7 +4,7 @@ import { FaCartPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 const Product = ({image,name,price,id}) => {
   return (
-      <div className='h-[20rem] w-[15rem] grid bg-orange-500'>
+      <div className='w-[15rem] grid bg-orange-500'>
           <div className='w-full relative bg-yellow-200 grid place-items-center py-2'>
           <p className='bg-yellow-500 px-3 py-1 text-sm text-semibold rounded-[2rem] text-yellow-800 grid place-items-center absolute top-2 right-2'>23%</p>
           <img src={image} alt="" className='w-full h-[13rem] img' />

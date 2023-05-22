@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { BsStar } from 'react-icons/bs';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { AiOutlineShoppingCart, AiOutlineWarning } from 'react-icons/ai';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useGlobalContext } from '../lib/context';
+// import { useGlobalContext } from '../lib/context';
 import Stripe from 'stripe';
 import { FaUserAlt } from 'react-icons/fa';
 import StarRating from '../components/StarRating';
 const SingleProduct = () => {
-    const { ProductsData, addToCart, changeAmount } = useGlobalContext();
+    // const { ProductsData, addToCart, changeAmount } = useGlobalContext();
     const { id } = useParams();
     const [productData, setProductData] = useState({});
     // const [reviewsData, setReviewsData] = useState([]);
@@ -57,6 +57,7 @@ const SingleProduct = () => {
     timeFormat();
 
     const price = `${price_1?.slice(0, price_1?.length - 2)}.${price_1?.slice(price_1?.length - 2, price_1?.length)}`
+
     const retrieveProduct = useCallback(async () => {
         const stripe = await Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY)
         const product = await stripe.products.retrieve(
@@ -114,10 +115,10 @@ const SingleProduct = () => {
                     </div>
                     <div className="flex p-5 justify-between border-b-2 border-gray-300 border-solid">
                         <span>Qty:</span>
-                        <input type="number" className='border-black border-b-2 w-2/4 outline-none focus:border-blue-500' value={ProductsData[4]?.amount} onChange={(e) => changeAmount(ProductsData[4]?.id, parseFloat(e.target.value), 'singleproduct')} />
+                        <input type="number" className='border-black border-b-2 w-2/4 outline-none focus:border-blue-500' onChange={(e) =>console.log('changeAmount')} />
                     </div>
                     <div className="p-5">
-                        <Link className="flex px-10 py-2 gap-3 items-center justify-center text-sm uppercase text-white shadow-xl rounded-md bg-sky-400" to='/carts' onClick={() => addToCart(4)}>
+                        <Link className="flex px-10 py-2 gap-3 items-center justify-center text-sm uppercase text-white shadow-xl rounded-md bg-sky-400" to='/carts' onClick={() =>console.log('addToCart')}>
                             <AiOutlinePlus /><AiOutlineShoppingCart /> add to cart
                         </Link>
                     </div>
@@ -139,11 +140,11 @@ const SingleProduct = () => {
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi molestias, dignissimos voluptas recusandae sequi laborum voluptatibus assumenda ratione nesciunt magnam, iure rem, perspiciatis velit corporis voluptatum eligendi sunt ipsum nisi!</p>
             </div>
             <h3 className='text-2xl uppercase font-bold mb-6'>WRITE A CUSTOMER REVIEW</h3>
-            <div className='bg-purple-400 text-white p-5 rounded-md w-[10rem] items-center'>Please sign in to write a review</div>
+            <div className='bg-purple-400 text-white p-5 rounded-md items-center flex gap-3'><AiOutlineWarning size={23}/>Please sign in to write a review</div>
             <form onSubmit={handleSubmit} className='flex  flex-col justify-center items-center gap-6 min-w-[500px] md:min-w-full text-md text-yellow-950 flex-wrap'>
                 <textarea style={{ width: '90vw', height: '15rem' }} className='bg-yellow-200 p-3 resize-none' placeholder="what's your pick on the product?" ref={reviewRef} />
                 <div className="flex items-center justify-center">Rate :  <StarRating /></div>
-                <button type='submit' className='mx-auto px-6 py-3 bg-orange-500 font-semibold text-md capitalize mr-auto lg_2:mr-0'>submit review</button>
+                <button type='submit' className='mx-auto px-6 py-3 bg-orange-500 font-semibold text-md capitalize'>submit review</button>
             </form>
 
         </div>
